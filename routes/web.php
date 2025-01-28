@@ -7,6 +7,7 @@ use App\Http\Controllers\Backend\Roles\RolesController;
 use App\Http\Controllers\Backend\Roles\PermisoController;
 use App\Http\Controllers\Backend\Perfil\PerfilController;
 use App\Http\Controllers\Backend\Dashboard\DashboardController;
+use App\Http\Controllers\Libros\LibrosController;
 
 
 // --- LOGIN ---
@@ -55,6 +56,8 @@ Route::get('sin-permisos', [ControlController::class,'indexSinPermiso'])->name('
 
 // --- DASHBOARD ---
 Route::get('/admin/inicio/index', [DashboardController::class,'vistaEjemplo'])->name('admin.dashboard.index');
+Route::get('/admin/libro1/index', [LibrosController::class,'vistaLibro1'])->name('admin.libro1.index');
+Route::get('/admin/libro1tabla/index', [LibrosController::class,'vistaTablaLibro1']);
 
 
 

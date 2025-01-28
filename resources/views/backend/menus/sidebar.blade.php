@@ -50,6 +50,13 @@
                     </li>
                 @endcan
 
+                <li class="nav-item">
+                    <a href="{{ route('admin.libro1.index') }}" target="frameprincipal" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>LIBRO 1</p>
+                    </a>
+                </li>
+
             </ul>
         </nav>
 
