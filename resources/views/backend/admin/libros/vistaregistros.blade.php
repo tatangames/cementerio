@@ -18,55 +18,83 @@
 
 
 
-    <div>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Registro</title>
+    <style>
+        /* Estilos para centrar el header */
+        .centrado {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100px;
+        }
 
-    </div>
+        /* Estilos para reducir el tamaño de los inputs */
+        .form-group input {
+            width: 300px;
+            padding: 5px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+<div class="centrado">
+    <header>
+        <h1>REGISTRO NUEVO</h1>
+    </header>
+</div>
 
-
-                <div class="modal-body">
-                    <form id="formulario-nuevo" enctype="multipart/form-data">
-                        <div class="card-body">
-
-
-                            <div class="form-group">
-                                <label>Nombre Primer fallecido</label>
-                                <input type="text" maxlength="50" autocomplete="off" class="form-control" id="nombre-nuevo">
-                            </div>
-
-                            <div class="form-group">
-                                <label>Fecha de fallecimiento:</label>
-                                <input type="text" maxlength="8" autocomplete="off" class="form-control" id="telefono-nuevo">
-                            </div>
-
-                            <div class="form-group">
-                                <label>Fecha de exhumacion:</label>
-                                <input type="text" maxlength="8" autocomplete="off" class="form-control" id="telefono-nuevo">
-                            </div>
-
-                            <div class="form-group">
-                                <label>Fecha de vencimiento:</label>
-                                <input type="date" maxlength="8" autocomplete="off" class="form-control" id="telefono-nuevo">
-                            </div>
-
-                            <div class="form-group">
-                                <label>Subir archivo</label>
-                                <input type="file" class="form-control" id="archivo-nuevo" accept=".pdf,.docx,.jpg,.png">
-                            </div>
-
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer justify-content-between">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                    <button
-                        type="button"
-                        style="font-weight: bold; background-color: #28a745; color: white !important;"
-                        class="button button-rounded button-pill button-small"
-                        onclick="nuevo();">
-                        Guardar
-                    </button>
-                </div>
+<div class="modal-body">
+    <form id="formulario-nuevo" enctype="multipart/form-data">
+        <div class="card-body">
+            <div class="form-group">
+                <label>Nombre Primer fallecido</label>
+                <input type="text" maxlength="50" autocomplete="off" class="form-control" name="nombre[]">
             </div>
+
+            <div class="form-group">
+                <label>Fecha de fallecimiento:</label>
+                <input type="text" maxlength="50" autocomplete="off" class="form-control" name="fechafallecimiento[]">
+            </div>
+
+            <div class="form-group">
+                <label>Fecha de exhumacion:</label>
+                <input type="text" maxlength="50" autocomplete="off" class="form-control" name="fechaexhumacion[]">
+            </div>
+
+            <div class="form-group">
+                <label>Fecha de vencimiento:</label>
+                <input type="date" maxlength="8" autocomplete="off" class="form-control" id="telefono-nuevo">
+            </div>
+
+            <div id="campos-adicionales"></div>
+
+            <!-- Botón para agregar más fallecidos -->
+            <button type="button" class="btn btn-primary" onclick="agregarFallecido()">
+                Agregar segundo fallecido
+            </button>
+        </div>
+
+            <div class="form-group">
+                <label>Subir archivo</label>
+                <input type="file" class="form-control" id="archivo-nuevo" accept=".pdf,.docx,.jpg,.png">
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="modal-footer justify-content-between">
+    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+    <button type="button" style="font-weight: bold; background-color: #28a745; color: white !important;" class="button button-rounded button-pill button-small" onclick="nuevo();">
+        Guardar
+    </button>
+</div>
+</body>
+</html>
 
 
 
@@ -425,6 +453,38 @@
             //         }
             //     });
             // }
+
+                let contadorFallecidos = 1;
+
+                function agregarFallecido() {
+                contadorFallecidos++;
+
+                const nuevoFallecido = document.createElement("div");
+                nuevoFallecido.classList.add("fallecido");
+                nuevoFallecido.id = `fallecido-${contadorFallecidos}`;
+
+                nuevoFallecido.innerHTML = `
+                <hr>
+                <div class="form-group">
+                    <label>Nombre Fallecido ${contadorFallecidos}</label>
+                    <input type="text" maxlength="50" autocomplete="off" class="form-control" name="nombre[]">
+                </div>
+
+                <div class="form-group">
+                    <label>Fecha de fallecimiento:</label>
+                    <input type="text" maxlength="8" autocomplete="off" class="form-control" name="fecha_fallecimiento[]">
+                </div>
+
+                <div class="form-group">
+                    <label>Fecha de exhumacion:</label>
+                    <input type="text" maxlength="8" autocomplete="off" class="form-control" name="fecha_exhumacion[]">
+                </div>
+
+
+            `;
+
+                document.getElementById("campos-adicionales").appendChild(nuevoFallecido);
+            }
 
 
 
