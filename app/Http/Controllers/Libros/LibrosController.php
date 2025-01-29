@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Libros;
 
 use App\Http\Controllers\Controller;
-use App\Models\Proveedores;
+use App\Models\Libros;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
