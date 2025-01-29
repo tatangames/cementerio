@@ -16,84 +16,36 @@
 </style>
 
 
-<div id="divcontenedor" style="display: none">
-
-    <section class="content-header">
-        <div class="container-fluid">
-            <button type="button" style="font-weight: bold; background-color: #28a745; color: white !important;" onclick="modalAgregar()" class="button button-3d button-rounded button-pill button-small">
-                <i class="fas fa-pencil-alt"></i>
-                Nuevo Proveedor
-            </button>
-
-            <button type="button"
-                    style="font-weight: bold; background-color: #28a745; color: white !important;"
-                    onclick="exportarPDF()"
-                    class="button button-3d button-rounded button-pill button-small">
-                <i class="fas fa-file-pdf"></i>
-                Exportar PDF
-            </button>
 
 
-        </div>
+    <div>
 
-    </section>
+    </div>
 
-    <section class="content">
-        <div class="container-fluid">
-            <div class="card card-success">
-                <div class="card-header">
-                    <h3 class="card-title">Listado</h3>
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div id="tablaDatatable">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
 
-    <div class="modal fade" id="modalAgregar">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Registro</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
                 <div class="modal-body">
                     <form id="formulario-nuevo" enctype="multipart/form-data">
                         <div class="card-body">
 
-                            <div class="form-group">
-                                <label>Usuarios:</label>
-                                <select id="select-usuarios" class="form-control">
-{{--                                    <!--@foreach($arrayusuarios as $item)--}}
-{{--                                        <option value="{{$item->id}}">{{ $item->nombre }}</option>--}}
-{{--                                    @endforeach--}}
-                                </select>
-                            </div>
 
                             <div class="form-group">
-                                <label>Nombre</label>
+                                <label>Nombre Primer fallecido</label>
                                 <input type="text" maxlength="50" autocomplete="off" class="form-control" id="nombre-nuevo">
                             </div>
 
                             <div class="form-group">
-                                <label>Teléfono</label>
+                                <label>Fecha de fallecimiento:</label>
                                 <input type="text" maxlength="8" autocomplete="off" class="form-control" id="telefono-nuevo">
                             </div>
 
                             <div class="form-group">
-                                <label>Género</label>
-                                <select id="select-genero" class="form-control">
-                                    <option value="0" selected>Masculino</option>
-                                    <option value="1">Femenino</option>
-                                </select>
+                                <label>Fecha de exhumacion:</label>
+                                <input type="text" maxlength="8" autocomplete="off" class="form-control" id="telefono-nuevo">
+                            </div>
+
+                            <div class="form-group">
+                                <label>Fecha de vencimiento:</label>
+                                <input type="date" maxlength="8" autocomplete="off" class="form-control" id="telefono-nuevo">
                             </div>
 
                             <div class="form-group">
@@ -115,8 +67,7 @@
                     </button>
                 </div>
             </div>
-        </div>
-    </div>
+
 
 
     <!-- modal editar -->
