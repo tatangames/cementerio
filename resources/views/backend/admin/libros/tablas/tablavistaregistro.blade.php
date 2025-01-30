@@ -7,31 +7,32 @@
                         <table id="tabla" class="table table-bordered table-striped">
                             <thead>
                             <tr>
-                                <th style="width: 8%">ID</th>
-                                <th style="width: 14%">Permiso</th>
-                                <th style="width: 14%">Descripción</th>
-                                <th style="width: 10%">Opciones</th>
+                                <th style="width: 14%">Libro</th>
+                                <th style="width: 8%">Nicho</th>
+                                <th style="width: 14%">Nombre</th>
+                                <th style="width: 14%">Fecha de fallecimiento</th>
+                                <th style="width: 10%">Fecha de vencimiento</th>
+                                <th style="width: 10%">Periodo de mora</th>
+                                <th style="width: 10%">Personas en mora</th>
+                                <th style="width: 10%">Cancelación sin el 5%</th>
+                                <th style="width: 10%">Próxima fecha de vencimiento</th>
                             </tr>
                             </thead>
                             <tbody>
-
-                            @foreach($permisos as $ll)
-                                <tr>
-                                    <td>{{ $ll->id }}</td>
-                                    <td>{{ $ll->name }}</td>
-                                    <td>{{ $ll->description }}</td>
-
-                                    <td>
-                                        <button type="button" style="font-weight: bold" class="button button-caution button-rounded button-pill button-tiny" onclick="modalBorrar({{ $ll->id }})">
-                                            <i class="fas fa-trash-alt" title="Eliminar Global"></i>&nbsp; Eliminar Global
-                                        </button>
-                                    </td>
-                                </tr>
-
+                            @foreach($arraylibros->take(10) as $dato) {{-- Solo muestra los primeros 10 registros --}}
+                            <tr>
+                                <td>{{ $dato->libro }}</td>
+                                <td>{{ $dato->nicho }}</td>
+                                <td class="nombre">{{ $dato->nombre }}</td>
+                                <td>{{ $dato->fecha_fallecimiento }}</td>
+                                <td>{{ $dato->fecha_vencimiento }}</td>
+                                <td>{{ $dato->periodo_mora }}</td>
+                                <td>{{ $dato->personas_mora }}</td>
+                                <td>{{ $dato->cancelacion_sin_descuento }}</td>
+                                <td>{{ $dato->proxima_fecha_vencimiento }}</td>
+                            </tr>
                             @endforeach
-
                             </tbody>
-
                         </table>
                     </div>
                 </div>

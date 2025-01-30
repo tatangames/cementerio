@@ -18,7 +18,8 @@ class LibrosController extends Controller
     }
     public function vistaTablaLibro1()
     {
-        return view('backend.admin.libros.tablas.vistaregistros');
+        $arraylibros = Libros::all();
+        return view('backend.admin.dashboard.vistadashboard', compact('arraylibros'));
     }
 
     public function registroGuardar(Request $request)

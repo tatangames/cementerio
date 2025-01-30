@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bienvenida</title>
@@ -107,7 +108,9 @@
     </style>
 </head>
 <body>
+<div id="divcontenedor" style="display: none">
 <div class="welcome-container">
+
     <!-- Cabecera con imágenes y título centrado -->
     <div class="header">
         <img src="{{ asset('images/alcal_metapan.png') }}" alt="Imagen Izquierda">
@@ -122,8 +125,49 @@
     <div class="search-container">
         <input type="text" placeholder="Buscar aquí...">
         <button type="button">Buscar</button>
-</div>
+    </div>
+
+
+
+    <section class="content">
+        <div class="container-fluid">
+            <div class="card card-success">
+                <div class="card-header">
+                    <h3 class="card-title">Listado</h3>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div id="tablaDatatable">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
 </body>
 </html>
 
+@extends('backend.menus.footerjs')
+@section('archivos-js')
 
+<script src="{{ asset('js/jquery.dataTables.js') }}" type="text/javascript"></script>
+<script src="{{ asset('js/dataTables.bootstrap4.js') }}" type="text/javascript"></script>
+
+<script src="{{ asset('js/toastr.min.js') }}" type="text/javascript"></script>
+<script src="{{ asset('js/axios.min.js') }}" type="text/javascript"></script>
+<script src="{{ asset('js/sweetalert2.all.min.js') }}"></script>
+<script src="{{ asset('js/alertaPersonalizada.js') }}"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+
+        var ruta = "{{ URL::to('/admin/libro1tabla/index') }}";
+        $('#tablaDatatable').load(ruta);
+
+        document.getElementById("divcontenedor").style.display = "block";
+    });
+</script>
+
+@endsection
