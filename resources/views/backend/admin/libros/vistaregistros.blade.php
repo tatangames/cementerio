@@ -33,11 +33,28 @@
             height: 100px;
         }
 
-        /* Estilos para reducir el tamaño de los inputs */
-        .form-group input {
-            width: 300px;
+        .form-group-peque input {
+            width: 65%;
             padding: 5px;
             font-size: 14px;
+        }
+
+        /* Estilos para reducir el tamaño de los inputs */
+        .form-group input {
+            width: 70%;
+            padding: 5px;
+            font-size: 14px;
+        }
+
+        /* Estilos para alinear elementos en la misma línea */
+        .fila {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .fila .form-group {
+            flex: 1;
         }
     </style>
 </head>
@@ -51,38 +68,123 @@
 <div class="modal-body">
     <form id="formulario-nuevo" enctype="multipart/form-data">
         <div class="card-body">
-            <div class="form-group">
-                <label>Nombre Primer fallecido</label>
-                <input type="text" maxlength="50" autocomplete="off" class="form-control" name="nombre[]">
+
+            <!-- Fila 1: Nombre y Fecha de fallecimiento -->
+            <div class="fila">
+                <div class="form-group-peque d-flex align-items-center">
+                    <label class="me-2">Libro:</label>
+                    <input type="text" maxlength="50" autocomplete="off" class="form-control" name="libro[]" style="width: auto;">
+                </div>
+
+                <div class="form-group-peque d-flex align-items-center">
+                    <label>Nicho:</label>
+                    <input type="text" maxlength="50" autocomplete="off" class="form-control" name="nicho[]">
+                </div>
             </div>
 
-            <div class="form-group">
-                <label>Fecha de fallecimiento:</label>
-                <input type="text" maxlength="50" autocomplete="off" class="form-control" name="fechafallecimiento[]">
-            </div>
+            <!-- Fila 1: Nombre y Fecha de fallecimiento -->
+            <div class="fila">
 
-            <div class="form-group">
-                <label>Fecha de exhumacion:</label>
-                <input type="text" maxlength="50" autocomplete="off" class="form-control" name="fechaexhumacion[]">
-            </div>
+                <div class="form-group d-flex align-items-center">
+                    <label>Nombre Primer fallecido</label>
+                    <input type="text" maxlength="50" autocomplete="off" class="form-control" name="nombre[]">
+                </div>
+                <div class="form-group d-flex align-items-center">
+                    <label>Fecha de fallecimiento:</label>
+                    <input type="date" maxlength="50" autocomplete="off" class="form-control" name="fechafallecimiento[]">
+                </div>
+                <div class="form-group d-flex align-items-center">
+                    <label>Fecha de exhumacion:</label>
+                    <input type="date" maxlength="50" autocomplete="off" class="form-control" name="fechaexhumacion[]">
+                </div>
 
-            <div class="form-group">
-                <label>Fecha de vencimiento:</label>
-                <input type="date" maxlength="8" autocomplete="off" class="form-control" id="telefono-nuevo">
-            </div>
 
+            </div>
+            <!-- Campos adicionales -->
             <div id="campos-adicionales"></div>
 
             <!-- Botón para agregar más fallecidos -->
             <button type="button" class="btn btn-primary" onclick="agregarFallecido()">
                 Agregar segundo fallecido
             </button>
-        </div>
 
-            <div class="form-group">
-                <label>Subir archivo</label>
-                <input type="file" class="form-control" id="archivo-nuevo" accept=".pdf,.docx,.jpg,.png">
+            <!-- Fila 2: Fecha de exhumación y Fecha de vencimiento -->
+            <div class="fila">
+
+                <div class="form-group">
+                    <label>Fecha de vencimiento:</label>
+                    <input type="date" maxlength="8" autocomplete="off" class="form-control" name="fechavencimiento[]">
+                </div>
+                <div class="form-group">
+                    <label>Periodo de mora:</label>
+                    <input type="text" maxlength="8" autocomplete="off" class="form-control" name="periodo_en_mora[]">
+                </div>
+                <div class="form-group">
+                    <label>Personas en mora:</label>
+                    <input type="text" maxlength="8" autocomplete="off" class="form-control" name="persona_en_mora[]">
+                </div>
+                <div class="form-group">
+                    <label>Cancelacion sin el 5% x periodo:</label>
+                    <input type="text" maxlength="8" autocomplete="off" class="form-control" name="cancelacion_sin[]">
+                </div>
+                <div class="form-group">
+                    <label>Prox fecha de vencimiento:</label>
+                    <input type="date" maxlength="8" autocomplete="off" class="form-control" name="proxfecha[]">
+                </div>
             </div>
+
+            <!-- Fila 3: Fecha de exhumación y Fecha de vencimiento -->
+            <div class="fila">
+                <div class="form-group">
+                    <label>Contribuyente que acncela:</label>
+                    <input type="text" maxlength="50" autocomplete="off" class="form-control" name="contrcancela[]">
+                </div>
+                <div class="form-group">
+                    <label>DUI:</label>
+                    <input type="text" maxlength="8" autocomplete="off" class="form-control" name="dui[]">
+                </div>
+                <div class="form-group">
+                    <label>Direccion:</label>
+                    <input type="text" maxlength="8" autocomplete="off" class="form-control" name="direccion[]">
+                </div>
+                <div class="form-group">
+                    <label>Telefono:</label>
+                    <input type="text" maxlength="8" autocomplete="off" class="form-control" name="telefono[]">
+                </div>
+                <div class="form-group">
+                    <label>Periodo cancelado:</label>
+                    <input type="text" maxlength="8" autocomplete="off" class="form-control" name="periodocancelado[]">
+                </div>
+
+
+            </div>
+
+            <!-- Fila 3: Fecha de exhumación y Fecha de vencimiento -->
+            <div class="fila">
+
+
+                <div class="form-group">
+                    <label>Costo sin el 5%:</label>
+                    <input type="text" maxlength="8" autocomplete="off" class="form-control" name="costosin[]">
+                </div>
+                <div class="form-group">
+                    <label>Costo con el 5%:</label>
+                    <input type="text" maxlength="8" autocomplete="off" class="form-control" name="costocon[]">
+                </div>
+                <div class="form-group">
+                    <label>Recibo de ingreso(tesoreria):</label>
+                    <input type="text" maxlength="8" autocomplete="off" class="form-control" name="recibo[]">
+                </div>
+                <div class="form-group">
+                    <label>Fecha de ingreso (tesoreria):</label>
+                    <input type="date" maxlength="8" autocomplete="off" class="form-control" name="fechateso[]">
+                </div>
+
+            </div>
+
+
+
+
         </div>
     </form>
 </div>
@@ -223,46 +325,89 @@
             }
 
 
-            function nuevo(){
-                var usuario = document.getElementById('select-usuarios').value;
-                var nombre = document.getElementById('nombre-nuevo').value;
-                var telefono = document.getElementById('telefono-nuevo').value;
-                var genero = document.getElementById('select-genero').value;
-                var documento = document.getElementById('archivo-nuevo');
+            function nuevo() {
+                // Obtener todos los campos del formulario
+                const libro = document.querySelector('input[name="libro[]"]').value;
+                const nicho = document.querySelector('input[name="nicho[]"]').value;
+                const nombre = document.querySelector('input[name="nombre[]"]').value;
+                const fechaFallecimiento = document.querySelector('input[name="fechafallecimiento[]"]').value;
+                const fechaExhumacion = document.querySelector('input[name="fechaexhumacion[]"]').value;
+                const fechaVencimiento = document.querySelector('input[name="fechavencimiento[]"]').value;
+                const periodoMora = document.querySelector('input[name="periodo_en_mora[]"]').value;
+                const personasenMora = document.querySelector('input[name="persona_en_mora[]"]').value;
+                const cancelacionSin = document.querySelector('input[name="cancelacion_sin[]"]').value;
+                const proxFecha = document.querySelector('input[name="proxfecha[]"]').value;
+                const contribuyente = document.querySelector('input[name="contrcancela[]"]').value; // Ajusta el nombre si es incorrecto
+                const dui = document.querySelector('input[name="dui[]"]').value; // Ajusta el nombre si es incorrecto
+                const direccion = document.querySelector('input[name="direccion[]"]').value; // Ajusta el nombre si es incorrecto
+                const telefono = document.querySelector('input[name="telefono[]"]').value; // Ajusta el nombre si es incorrecto
+                const periodoCancelado = document.querySelector('input[name="periodocancelado[]"]').value; // Ajusta el nombre si es incorrecto
+                const costoSin = document.querySelector('input[name="costosin[]"]').value; // Ajusta el nombre si es incorrecto
+                const costoCon = document.querySelector('input[name="costocon[]"]').value; // Ajusta el nombre si es incorrecto
+                const reciboIngreso = document.querySelector('input[name="recibo[]"]').value; // Ajusta el nombre si es incorrecto
+                const fechaIngreso = document.querySelector('input[name="fechateso[]"]').value; // Ajusta el nombre si es incorrecto
 
-
-
-
-                if(nombre === ''){
-                    toastr.error('Nombre es requerido');
+                // Validar campos obligatorios
+                if (
+                    libro === '' || nicho === '' || nombre === '' || fechaFallecimiento === '' ||
+                    fechaExhumacion === '' || fechaVencimiento === '' || periodoMora === '' ||
+                    cancelacionSin === '' || proxFecha === '' || contribuyente === '' || dui === '' ||
+                    direccion === '' || telefono === '' || periodoCancelado === '' || costoSin === '' ||
+                    costoCon === '' || reciboIngreso === '' || fechaIngreso === ''
+                ) {
+                    toastr.error('Todos los campos son requeridos');
                     return;
                 }
 
-                openLoading();
-                var formData = new FormData();
-                formData.append('usuario', usuario);
+                // Crear un objeto FormData para enviar los datos
+                const formData = new FormData();
+                formData.append('libro', libro);
+                formData.append('nicho', nicho);
                 formData.append('nombre', nombre);
-                formData.append('genero', genero)
-                formData.append('telefono', telefono)
-                formData.append('documento', documento.files[0]);
+                formData.append('fechaFallecimiento', fechaFallecimiento);
+                formData.append('fechaExhumacion', fechaExhumacion);
+                formData.append('fechaVencimiento', fechaVencimiento);
+                formData.append('periodoMora', periodoMora);
+                formData.append('personaMora', personasenMora);
+                formData.append('cancelacionSin', cancelacionSin);
+                formData.append('proxFecha', proxFecha);
+                formData.append('contribuyente', contribuyente);
+                formData.append('dui', dui);
+                formData.append('direccion', direccion);
+                formData.append('telefono', telefono);
+                formData.append('periodoCancelado', periodoCancelado);
+                formData.append('costoSin', costoSin);
+                formData.append('costoCon', costoCon);
+                formData.append('reciboIngreso', reciboIngreso);
+                formData.append('fechaIngreso', fechaIngreso);
 
+                // Mostrar el loading
+                openLoading();
 
-                axios.post(url+'/ejemploguardar/index', formData, {
+                // Enviar los datos al servidor usando Axios
+                axios.post(url + '/guardarlibro/index', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
                 })
                     .then((response) => {
+                        // Cerrar el loading
                         closeLoading();
-                        if(response.data.success === 1){
+
+                        // Verificar la respuesta del servidor
+                        if (response.data.success === 1) {
                             toastr.success('Registrado correctamente');
-                            $('#modalAgregar').modal('hide');
-                            recargar();
-                        }
-                        else {
+                            $('#modalAgregar').modal('hide'); // Cerrar el modal
+                            recargar(); // Recargar la página o la tabla
+                        } else {
                             toastr.error('Error al registrar');
                         }
                     })
                     .catch((error) => {
-                        toastr.error('Error al registrar');
+                        // Cerrar el loading y mostrar error
                         closeLoading();
+                        toastr.error('Error al registrar');
+                        console.error(error);
                     });
             }
 
@@ -465,19 +610,20 @@
 
                 nuevoFallecido.innerHTML = `
                 <hr>
-                <div class="form-group">
-                    <label>Nombre Fallecido ${contadorFallecidos}</label>
+                <!-- Fila 1: Nombre y Fecha de fallecimiento -->
+            <div class="fila">
+
+                <div class="form-group d-flex align-items-center">
+                    <label>Nombre fallecido ${contadorFallecidos}</label>
                     <input type="text" maxlength="50" autocomplete="off" class="form-control" name="nombre[]">
                 </div>
-
-                <div class="form-group">
+                <div class="form-group d-flex align-items-center">
                     <label>Fecha de fallecimiento:</label>
-                    <input type="text" maxlength="8" autocomplete="off" class="form-control" name="fecha_fallecimiento[]">
+                    <input type="date" maxlength="50" autocomplete="off" class="form-control" name="fechafallecimiento[]">
                 </div>
-
-                <div class="form-group">
+                <div class="form-group d-flex align-items-center">
                     <label>Fecha de exhumacion:</label>
-                    <input type="text" maxlength="8" autocomplete="off" class="form-control" name="fecha_exhumacion[]">
+                    <input type="date" maxlength="50" autocomplete="off" class="form-control" name="fechaexhumacion[]">
                 </div>
 
 
