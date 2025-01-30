@@ -16,9 +16,12 @@ class LibrosController extends Controller
     public function vistaLibro1(){
         return view('backend.admin.libros.vistaregistros');
     }
+    public function vistaEditar(){
+        return view('backend.admin.libros.vistaeditar');
+    }
     public function vistaTablaLibro1()
     {
-        $arraylibros = Libros::all();
+        $arraylibros = Libros::take(10)->get();
         return view('backend.admin.dashboard.vistadashboard', compact('arraylibros'));
     }
 

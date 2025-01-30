@@ -105,7 +105,7 @@
 
             <!-- Botón para agregar más fallecidos -->
             <button type="button" class="btn btn-primary" onclick="agregarFallecido()">
-                Agregar segundo fallecido
+                Agregar fallecido
             </button>
 
             <!-- Fila 2: Fecha de exhumación y Fecha de vencimiento -->
@@ -631,9 +631,6 @@
 
                 document.getElementById("campos-adicionales").appendChild(nuevoFallecido);
             }
-
-
-
 
 
 

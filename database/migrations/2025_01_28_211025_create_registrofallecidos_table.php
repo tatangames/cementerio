@@ -14,18 +14,19 @@ return new class extends Migration
         Schema::create('registrofallecidos', function (Blueprint $table) {
             $table->id();
 
-            // Relación con la tabla "registro"
-            $table->string('libro', 50); // Referencia al libro
-            $table->string('nicho', 8); // Referencia al número de nicho
+
 
             // Información del fallecido
             $table->string('Nombre', 50)->nullable();
             $table->date('fecha_entierro')->nullable();
             $table->date('fecha_exhumacion')->nullable();
 
+            // Relación con la tabla "registro"
+            $table->bigInteger('id_registrosce')->unsigned()->nullable();
+
 
             // Definir la clave foránea compuesta
-            $table->foreign(['libro', 'nicho'])->references(['libro', 'numero_de_nicho'])->on('registro')->onDelete('cascade');
+            $table->foreign('id_registrosce')->references('id')->on('registrosce');
         });
     }
 
