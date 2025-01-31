@@ -65,3 +65,9 @@ Route::post('/admin/editarusuario/editar', [LibrosController::class, 'registroEd
 
 
 
+Route::post('/admin/buscar/fallecido', [LibrosController::class, 'buscarfallecido']);
+Route::get('/admin/libros/detalle/{id}', [LibrosController::class, 'mostrarDetalle']);
+
+
+
+
