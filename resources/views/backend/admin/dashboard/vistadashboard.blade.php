@@ -165,8 +165,13 @@
 
         var ruta = "{{ URL::to('/admin/libro1tabla/index') }}";
         $('#tablaDatatable').load(ruta);
+        if (status == "error") {
+            console.log("Error cargando la tabla: " + xhr.status + " " + xhr.statusText);
+        } else {
+            console.log("Tabla cargada correctamente.");
+            document.getElementById("divcontenedor").style.display = "block"; // Hacer visible el contenedor
+        }
 
-        document.getElementById("divcontenedor").style.display = "block";
     });
 </script>
 
