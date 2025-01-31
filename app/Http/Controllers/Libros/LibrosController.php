@@ -26,6 +26,64 @@ class LibrosController extends Controller
         return view('backend.admin.libros.vistaeditar');
     }
 
+    public function buscarfallecido(Request $request)
+    {
+        if ($request->get('query')) {
+            $query = $request->get('query');
+
+//            $pilaObjEspeci = array();
+//            $infoAuth = auth()->user();
+//            $arrayCodigo = BodegaUsuarioObjEspecifico::where('id_usuario', $infoAuth->id)->get();
+
+//            foreach ($arrayCodigo as $fila) {
+//                array_push($pilaObjEspeci, $fila->id_objespecifico);
+//            }
+
+
+            $data = Libros::where('nombre', 'LIKE', "%{$query}%")
+//                ->whereIn('id_objespecifico', $pilaObjEspeci)
+                ->get();
+
+            $output = '<ul class="dropdown-menu" style="display:block; position:relative; overflow: auto; max-height: 300px; width: 550px">';
+            $tiene = true;
+            foreach ($data as $row) {
+                $infofallecido = Libros::where('id', $row->id)->first();
+                $nombreCompleto = $row->nombre . " (" . $infofallecido->nombre . ")";
+
+                // si solo hay 1 fila, No mostrara el hr, salto de linea
+                if (count($data) == 1) {
+                    if (!empty($row)) {
+                        $tiene = false;
+                        $output .= '
+                 <li class="cursor-pointer" onclick="modificarValor(this)" id="' . $row->id . '">' . $nombreCompleto . '</li>
+                ';
+                    }
+                } else {
+                    if (!empty($row)) {
+                        $tiene = false;
+                        $output .= '
+                 <li class="cursor-pointer" onclick="modificarValor(this)" id="' . $row->id . '">' . $nombreCompleto . '</li>
+                   <hr>
+                ';
+                    }
+                }
+            }
+            $output .= '</ul>';
+            if ($tiene) {
+                $output = '';
+            }
+            echo $output;
+        }
+    }
+
+    public function mostrarDetalle($id)
+    {
+        $fallecido = Libros::findOrFail($id);  // Obtener el fallecido por su ID
+        return view('backend.admin.libros.detalle', compact('fallecido'));
+    }
+
+
+
     public function registroGuardar(Request $request)
     {
         DB::beginTransaction();

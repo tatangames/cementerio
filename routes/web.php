@@ -63,3 +63,9 @@ Route::post('/admin/guardarlibro/index', [LibrosController::class,'registroGuard
 
 
 
+Route::post('/admin/buscar/fallecido', [LibrosController::class, 'buscarfallecido']);
+Route::get('/admin/libros/detalle/{id}', [LibrosController::class, 'mostrarDetalle']);
+
+
+
+

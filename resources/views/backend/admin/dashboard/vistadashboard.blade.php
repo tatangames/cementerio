@@ -14,7 +14,7 @@
         }
 
         body {
-            background-color: #001f3f;
+            background-color: #001f3f; /* Azul marino */
             color: #000; /* Texto negro */
             display: flex;
             justify-content: center;
@@ -109,70 +109,137 @@
 </head>
 <body>
 <div id="divcontenedor" style="display: none">
-<div class="welcome-container">
+    <div class="welcome-container">
 
-    <!-- Cabecera con imágenes y título centrado -->
-    <div class="header">
-        <img src="{{ asset('images/alcal_metapan.png') }}" alt="Imagen Izquierda">
-        <div class="title-container">
-            <div class="title">Indice de refrendas de Nichos Municipales</div>
-            <div class="subtitle">Cementerio General de Metapán "El Socorro"</div>
+        <!-- Cabecera con imágenes y título centrado -->
+        <div class="header">
+            <img src="{{ asset('images/alcal_metapan.png') }}" alt="Imagen Izquierda">
+            <div class="title-container">
+                <div class="title">Indice de refrendas de Nichos Municipales</div>
+                <div class="subtitle">Cementerio General de Metapán "El Socorro"</div>
+            </div>
+            <img src="{{ asset('images/logosantaana_blanco.png') }}" alt="Imagen Derecha">
         </div>
-        <img src="{{ asset('images/logosantaana_blanco.png') }}" alt="Imagen Derecha">
-    </div>
 
 
-    <div class="search-container">
-        <input type="text" placeholder="Buscar aquí...">
-        <button type="button">Buscar</button>
-    </div>
+{{--        <div class="search-container">--}}
+{{--            <input type="text" placeholder="Buscar aquí...">--}}
+{{--            <button type="button">Buscar</button>--}}
+{{--        </div>--}}
 
 
-
-    <section class="content">
-        <div class="container-fluid">
-            <div class="card card-success">
-                <div class="card-header">
-                    <h3 class="card-title">Listado</h3>
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div id="tablaDatatable">
-                            </div>
-                        </div>
+        <section class="content" style="margin-top: 15px">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <table class="table" id="matriz-busqueda">
+                            <tbody>
+                            <tr>
+                                <td>
+                                    <input id="inputBuscador" data-idfallecido='0' autocomplete="off"
+                                           class='form-control' style='width:100%'
+                                           onkeyup='buscarFallecido(this)' maxlength='300' type='text'>
+                                    <div class='droplista' id="midropmenu"
+                                         style='position: absolute; z-index: 9; width: 75%; display: none;'></div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+
+        <div id="divcontenedor" style="display: none">
+
 
 </body>
 </html>
 
+
+
+
+
+
+
 @extends('backend.menus.footerjs')
+
 @section('archivos-js')
 
-<script src="{{ asset('js/jquery.dataTables.js') }}" type="text/javascript"></script>
-<script src="{{ asset('js/dataTables.bootstrap4.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('js/axios.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('js/toastr.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('js/select2.min.js') }}" type="text/javascript"></script>
 
-<script src="{{ asset('js/toastr.min.js') }}" type="text/javascript"></script>
-<script src="{{ asset('js/axios.min.js') }}" type="text/javascript"></script>
-<script src="{{ asset('js/sweetalert2.all.min.js') }}"></script>
-<script src="{{ asset('js/alertaPersonalizada.js') }}"></script>
-<script type="text/javascript">
-    $(document).ready(function(){
+    <script type="text/javascript">
 
-        var ruta = "{{ URL::to('/admin/libro1tabla/index') }}";
-        $('#tablaDatatable').load(ruta);
-        if (status == "error") {
-            console.log("Error cargando la tabla: " + xhr.status + " " + xhr.statusText);
-        } else {
-            console.log("Tabla cargada correctamente.");
-            document.getElementById("divcontenedor").style.display = "block"; // Hacer visible el contenedor
+
+        $(document).ready(function () {
+
+            window.seguroBuscador = true;
+            window.txtContenedorGlobal = this;
+
+            $(document).click(function(){
+                $(".droplista").hide();
+            });
+
+            $(document).ready(function() {
+                $('[data-toggle="popover"]').popover({
+                    placement: 'top',
+                    trigger: 'hover'
+                });
+            });
+
+            document.getElementById("divcontenedor").style.display = "block";
+        });
+
+
+        function buscarFallecido(e){
+
+            // seguro para evitar errores de busqueda continua
+            if(seguroBuscador){
+                seguroBuscador = false;
+
+                var row = $(e).closest('tr');
+                txtContenedorGlobal = e;
+
+                let texto = e.value;
+
+                if(texto === ''){
+                    // si se limpia el input, setear el atributo id
+                    $(e).attr('data-idfallecido', 0);
+                }
+
+                axios.post('/admin/buscar/fallecido', {
+                    'query' : texto
+                })
+                    .then((response) => {
+
+                        seguroBuscador = true;
+                        $(row).each(function (index, element) {
+                            $(this).find(".droplista").fadeIn();
+                            $(this).find(".droplista").html(response.data);
+                        });
+                    })
+                    .catch((error) => {
+                        seguroBuscador = true;
+                    });
+            }
         }
 
-    });
-</script>
 
+        function modificarValor(edrop){
+
+            // obtener texto del li
+            let texto = $(edrop).text();
+            // setear el input de la descripcion
+            $(txtContenedorGlobal).val('');
+
+            window.location.href="{{ url('/admin/libros/detalle') }}/" + edrop.id;
+
+            // agregar el id al atributo del input descripcion
+            // $(txtContenedorGlobal).attr('data-idfallecido', edrop.id);
+
+            document.activeElement.blur();
+        }
+    </script>
 @endsection
