@@ -60,6 +60,8 @@ Route::get('/admin/libro1/index', [LibrosController::class,'vistaLibro1'])->name
 Route::get('/admin/libro1tabla/index', [LibrosController::class,'vistaLibrosEditar'])->name('admin.libro1tabla.index');
 Route::get('/admin/editar/index', [LibrosController::class,'vistaTabla']);
 Route::post('/admin/guardarlibro/index', [LibrosController::class,'registroGuardar']);
+Route::post('/admin/informacion/info-usuario', [LibrosController::class, 'infoUsuarios']);
+Route::post('/admin/editarusuario/editar', [LibrosController::class, 'registroEditar']);
 
 
 

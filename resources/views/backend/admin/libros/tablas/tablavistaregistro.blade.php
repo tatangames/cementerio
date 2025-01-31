@@ -7,15 +7,17 @@
                         <table id="tabla" class="table table-bordered table-striped">
                             <thead>
                             <tr>
-                                <th style="width: 14%">Libro</th>
-                                <th style="width: 8%">Nicho</th>
+                                <th style="width: 5%">Libro</th>
+                                <th style="width: 5%">Nicho</th>
                                 <th style="width: 14%">Nombre</th>
                                 <th style="width: 14%">Fecha de fallecimiento</th>
                                 <th style="width: 10%">Fecha de vencimiento</th>
                                 <th style="width: 10%">Periodo de mora</th>
                                 <th style="width: 10%">Personas en mora</th>
-                                <th style="width: 10%">Cancelación sin el 5%</th>
-                                <th style="width: 10%">Próxima fecha de vencimiento</th>
+                                <th style="width: 10%"> Opciones</th>
+{{--                                <th style="width: 10%">Cancelación sin el 5%</th>--}}
+{{--                                <th style="width: 10%">Próxima fecha de vencimiento</th>--}}
+{{--                                <th style="width: 10%">Contribuyente</th>--}}
                             </tr>
                             </thead>
                             <tbody>
@@ -29,32 +31,34 @@
                                     <td>{{ $dato->fecha_de_vencimiento }}</td>
                                     <td>{{ $dato->periodo_de_mora }}</td>
                                     <td>{{ $dato->personas_en_mora }}</td>
-                                    <td>{{ $dato->cancelacion_sin_5 }}</td>
-                                    <td>{{ $dato->prox_fecha_venc }}</td>
+{{--                                    <td>{{ $dato->cancelacion_sin_5 }}</td>--}}
+{{--                                    <td>{{ $dato->prox_fecha_venc }}</td>--}}
+
+                                    <td class="d-flex align-items-center gap-2">
+                                        <button type="button"
+                                                class="btn btn-primary button-rounded button-pill btn-sm"
+                                                onclick="informacion({{ $dato->id }})">
+                                            <i class="fas fa-edit" title="Editar"></i>&nbsp; Editar
+                                        </button>
+
+                                        <button type="button"
+                                                class="btn btn-danger button-rounded button-pill btn-sm"
+                                                onclick="modalBorrarUser({{ $dato->id }})">
+                                            <i class="fas fa-trash-alt" title="Borrar"></i>&nbsp; Eliminar
+                                        </button>
+
+                                        @if($dato->documento_url)
+                                            <button type="button"
+                                                    class="btn btn-primary btn-rounded btn-sm d-flex align-items-center"
+                                                    onclick="descargarArchivo({{ $dato->id }})">
+                                                <i class="fas fa-download" title="Descargar"></i>&nbsp; Descargar Archivo
+                                            </button>
+                                        @endif
+
+                                    </td>
                                 </tr>
 
-                            <td class="d-flex align-items-center gap-2">
-                                <button type="button"
-                                        class="btn btn-primary button-rounded button-pill btn-sm"
-                                        onclick="informacion({{ $dato->id }})">
-                                    <i class="fas fa-edit" title="Editar"></i>&nbsp; Editar
-                                </button>
 
-                                <button type="button"
-                                        class="btn btn-danger button-rounded button-pill btn-sm"
-                                        onclick="modalBorrarUser({{ $dato->id }})">
-                                    <i class="fas fa-trash-alt" title="Borrar"></i>&nbsp; Eliminar
-                                </button>
-
-                                @if($dato->documento_url)
-                                    <button type="button"
-                                            class="btn btn-primary btn-rounded btn-sm d-flex align-items-center"
-                                            onclick="descargarArchivo({{ $dato->id }})">
-                                        <i class="fas fa-download" title="Descargar"></i>&nbsp; Descargar Archivo
-                                    </button>
-                                @endif
-
-                            </td>
 
                             @endforeach
                             </tbody>
