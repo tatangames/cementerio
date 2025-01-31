@@ -14,7 +14,7 @@
         }
 
         body {
-            background-color: #001f3f; /* Azul marino */
+            background-color: #001f3f;
             color: #000; /* Texto negro */
             display: flex;
             justify-content: center;
