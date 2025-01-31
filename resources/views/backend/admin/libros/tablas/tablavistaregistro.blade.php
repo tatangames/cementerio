@@ -19,18 +19,43 @@
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach($arraylibros->take(10) as $dato) {{-- Solo muestra los primeros 10 registros --}}
-                            <tr>
-                                <td>{{ $dato->libro }}</td>
-                                <td>{{ $dato->nicho }}</td>
-                                <td class="nombre">{{ $dato->nombre }}</td>
-                                <td>{{ $dato->fecha_fallecimiento }}</td>
-                                <td>{{ $dato->fecha_vencimiento }}</td>
-                                <td>{{ $dato->periodo_mora }}</td>
-                                <td>{{ $dato->personas_mora }}</td>
-                                <td>{{ $dato->cancelacion_sin_descuento }}</td>
-                                <td>{{ $dato->proxima_fecha_vencimiento }}</td>
-                            </tr>
+                            @foreach($arraylibros as $dato) {{-- Solo muestra los primeros 10 registros --}}
+
+                                <tr>
+                                    <td>{{ $dato->libro }}</td>
+                                    <td>{{ $dato->numero_de_nicho }}</td> {{-- Asegúrate que coincida --}}
+                                    <td>{{ $dato->nombre }}</td>
+                                    <td>{{ $dato->fecha_de_fallecimiento }}</td>
+                                    <td>{{ $dato->fecha_de_vencimiento }}</td>
+                                    <td>{{ $dato->periodo_de_mora }}</td>
+                                    <td>{{ $dato->personas_en_mora }}</td>
+                                    <td>{{ $dato->cancelacion_sin_5 }}</td>
+                                    <td>{{ $dato->prox_fecha_venc }}</td>
+                                </tr>
+
+                            <td class="d-flex align-items-center gap-2">
+                                <button type="button"
+                                        class="btn btn-primary button-rounded button-pill btn-sm"
+                                        onclick="informacion({{ $dato->id }})">
+                                    <i class="fas fa-edit" title="Editar"></i>&nbsp; Editar
+                                </button>
+
+                                <button type="button"
+                                        class="btn btn-danger button-rounded button-pill btn-sm"
+                                        onclick="modalBorrarUser({{ $dato->id }})">
+                                    <i class="fas fa-trash-alt" title="Borrar"></i>&nbsp; Eliminar
+                                </button>
+
+                                @if($dato->documento_url)
+                                    <button type="button"
+                                            class="btn btn-primary btn-rounded btn-sm d-flex align-items-center"
+                                            onclick="descargarArchivo({{ $dato->id }})">
+                                        <i class="fas fa-download" title="Descargar"></i>&nbsp; Descargar Archivo
+                                    </button>
+                                @endif
+
+                            </td>
+
                             @endforeach
                             </tbody>
                         </table>

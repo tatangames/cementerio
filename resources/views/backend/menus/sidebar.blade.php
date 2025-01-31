@@ -58,7 +58,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a href="{{ route('admin.editar.index') }}" target="frameprincipal" class="nav-link">
+                    <a href="{{ route('admin.libro1tabla.index') }}" target="frameprincipal" class="nav-link">
                         <i class="far fa-circle nav-icon"></i>
                         <p>EDITAR</p>
                     </a>

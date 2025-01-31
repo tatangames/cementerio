@@ -222,7 +222,7 @@
         <script type="text/javascript">
             $(document).ready(function(){
 
-                var ruta = "{{ URL::to('/admin/ejemplotabla/index') }}";
+                var ruta = "{{ URL::to('admin/editar/index') }}";
                 $('#tablaDatatable').load(ruta);
 
                 document.getElementById("divcontenedor").style.display = "block";
