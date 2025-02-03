@@ -1,11 +1,32 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
+    <!-- Agregar Bootstrap 5 desde CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bienvenida</title>
     <style>
+        table {
+            /*Ajustar tablas*/
+            table-layout: fixed;
+        }
+
+        .cursor-pointer:hover {
+            cursor: pointer;
+            color: #401fd2;
+            font-weight: bold;
+        }
+
+        *:focus {
+            outline: none;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -58,39 +79,40 @@
             color: #FFFFFF; /* Un tono gris oscuro para contraste */
         }
 
-        .search-container {
-            margin: 20px 0;
-        }
+        /*.search-container {*/
+        /*    margin: 20px 0;*/
+        /*}*/
 
-        .search-container input[type="text"] {
-            width: 70%;
-            max-width: 600px;
-            padding: 10px;
-            font-size: 1rem;
-            border: 2px solid #FFFFFF;
-            border-radius: 5px;
-            background-color: transparent;
-            color: #FFFFFF;
-        }
+        /*.search-container input[type="text"] {*/
 
-        .search-container input[type="text"]::placeholder {
-            color: #CCCCCC; /* Color placeholder */
-        }
+        /*    width: 70%;*/
+        /*    max-width: 600px;*/
+        /*    padding: 10px;*/
+        /*    font-size: 1rem;*/
+        /*    border: 2px solid #FFFFFF;*/
+        /*    border-radius: 5px;*/
+        /*    background-color: transparent;*/
+        /*    color: #FFFFFF;*/
+        /*}*/
 
-        .search-container button {
-            padding: 10px 20px;
-            font-size: 1rem;
-            font-weight: bold;
-            color: #FFFFFF;
-            background-color: #007BFF; /* Botón azul */
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
+        /*.search-container input[type="text"]::placeholder {*/
+        /*    color: #CCCCCC; !* Color placeholder *!*/
+        /*}*/
 
-        .search-container button:hover {
-            background-color: #0056b3; /* Azul más oscuro */
-        }
+        /*.search-container button {*/
+        /*    padding: 10px 20px;*/
+        /*    font-size: 1rem;*/
+        /*    font-weight: bold;*/
+        /*    color: #FFFFFF;*/
+        /*    background-color: #007BFF; !* Botón azul *!*/
+        /*    border: none;*/
+        /*    border-radius: 5px;*/
+        /*    cursor: pointer;*/
+        /*}*/
+
+        /*.search-container button:hover {*/
+        /*    background-color: #0056b3; !* Azul más oscuro *!*/
+        /*}*/
 
         @media (max-width: 768px) {
             .header img {
@@ -105,6 +127,18 @@
                 font-size: 1.0rem;
             }
         }
+
+        /*.droplista {*/
+        /*    position: absolute;*/
+        /*    z-index: 15;*/
+        /*    width: 100%;  !* Hace que la lista sea del mismo ancho que el input *!*/
+        /*    display: none;*/
+
+        /*}*/
+
+
+
+
     </style>
 </head>
 <body>
@@ -128,19 +162,25 @@
 {{--        </div>--}}
 
 
+
+
+
+
+
         <section class="content" style="margin-top: 15px">
             <div class="container-fluid">
-                <div class="row">
+                <div class="row justify-content-center">
                     <div class="form-group col-md-6">
-                        <table class="table" id="matriz-busqueda">
+                        <table class="table" id="matriz-busqueda" data-toggle="table">
                             <tbody>
                             <tr>
                                 <td>
                                     <input id="inputBuscador" data-idfallecido='0' autocomplete="off"
-                                           class='form-control' style='width:100%'
+                                           class= 'form-control' style='width:100%; background-color: #003366; color: #FFFFFF'
                                            onkeyup='buscarFallecido(this)' maxlength='300' type='text'>
                                     <div class='droplista' id="midropmenu"
-                                         style='position: absolute; z-index: 9; width: 75%; display: none;'></div>
+                                         style='position: absolute; z-index: 15;
+                                         width: 100%; display: none; '></div>
                                 </td>
                             </tr>
                             </tbody>
@@ -150,7 +190,7 @@
             </div>
         </section>
 
-        <div id="divcontenedor" style="display: none">
+
 
 
 </body>

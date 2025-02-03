@@ -6,31 +6,35 @@
     <link href="{{ asset('css/toastr.min.css') }}" type="text/css" rel="stylesheet" />
     <link href="{{ asset('css/estiloToggle.css') }}" type="text/css" rel="stylesheet" />
     <link href="{{ asset('css/buttons_estilo.css') }}" rel="stylesheet">
+
+
 @stop
 
-<style>
-    table{
-        /*Ajustar tablas*/
-        table-layout:fixed;
-    }
-</style>
 
 
 
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formulario de Registro</title>
     <style>
-        /* Estilos para centrar el header */
-        .centrado {
+        table{
+            /*Ajustar tablas*/
+            table-layout:fixed;
+        }
+        .header {
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100px;
+        }
+        .header img {
+            width: 150px;
+            height: auto;
         }
 
         .form-group-peque input {
@@ -45,6 +49,10 @@
             padding: 5px;
             font-size: 14px;
         }
+        body {
+            background-color: #001f3f !important;
+
+        }
 
         /* Estilos para alinear elementos en la misma línea */
         .fila {
@@ -56,15 +64,44 @@
         .fila .form-group {
             flex: 1;
         }
+
+        .title-container {
+            margin: 10px 0;
+        }
+
+        .title {
+            font-size: 2.5rem;
+            font-weight: bold; /* Título en negrita */
+            color: #FFFFFF;
+            margin-bottom: 10px;
+        }
+        label{
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .header img {
+                width: 120px;
+            }
+
+            .title {
+                font-size: 1.8rem;
+            }
+
+
+        }
     </style>
 </head>
-<body>
-<div class="centrado">
-    <header>
-        <h1>REGISTRO NUEVO</h1>
-    </header>
+<div class="header">
+    <img src="{{ asset('images/alcal_metapan.png') }}" alt="Imagen Izquierda">
+    <div class="title-container">
+        <div class="title">Registro Nuevo</div>
+    </div>
+    <img src="{{ asset('images/logosantaana_blanco.png') }}" alt="Imagen Derecha">
 </div>
+<body>
 
+<div id="divcontenedor" style="display: none">
 <div class="modal-body">
     <form id="formulario-nuevo" enctype="multipart/form-data">
         <div class="card-body">
@@ -100,13 +137,6 @@
 
 
             </div>
-            <!-- Campos adicionales -->
-            <div id="campos-adicionales"></div>
-
-            <!-- Botón para agregar más fallecidos -->
-            <button type="button" class="btn btn-primary" onclick="agregarFallecido()">
-                Agregar fallecido
-            </button>
 
             <!-- Fila 2: Fecha de exhumación y Fecha de vencimiento -->
             <div class="fila">
@@ -136,7 +166,7 @@
             <!-- Fila 3: Fecha de exhumación y Fecha de vencimiento -->
             <div class="fila">
                 <div class="form-group">
-                    <label>Contribuyente que acncela:</label>
+                    <label>Contribuyente que cancela:</label>
                     <input type="text" maxlength="50" autocomplete="off" class="form-control" name="contrcancela[]">
                 </div>
                 <div class="form-group">
@@ -544,60 +574,6 @@
                 window.location.href = url;
             }
 
-
-
-
-
-
-
-
-
-
-            // //Mostrar subida de archivo
-            // $(document).ready(function() {
-            //     // Cuando el usuario selecciona un archivo
-            //     $('#file').change(function() {
-            //         // Obtener el nombre del archivo seleccionado
-            //         var fileName = $(this).val().split('\\').pop(); // Obtener solo el nombre (sin ruta)
-            //         // Mostrar el nombre del archivo en el contenedor
-            //         $('#file-name-display').text('Archivo seleccionado: ' + fileName);
-            //     });
-            //
-            //     // Llamada a la función cuando el formulario es enviado
-            //     $('#uploadForm').on('submit', function(event) {
-            //         event.preventDefault(); // Evita el envío tradicional del formulario
-            //         subirArchivo(); // Llama a la función para manejar el archivo
-            //     });
-            // });
-            //
-            // // Función que maneja la subida del archivo
-            // function subirArchivo() {
-            //     var formData = new FormData($('#uploadForm')[0]); // Obtenemos los datos del formulario
-            //
-            //     $.ajax({
-            //         url: $('#uploadForm').attr('action'), // URL del formulario (ruta para subir el archivo)
-            //         type: 'POST',
-            //         data: formData,
-            //         contentType: false, // No establecer el tipo de contenido
-            //         processData: false, // No procesar los datos
-            //         success: function(response) {
-            //             // Si la respuesta es exitosa, recargamos la tabla
-            //             if (response.success) {
-            //                 toastr.success(response.message); // Muestra el mensaje de éxito
-            //                 recargar(); // Llama a la función para recargar la tabla
-            //
-            //                 // Limpiar el nombre del archivo y el campo de archivo
-            //                 $('#file').val(''); // Resetea el campo del archivo
-            //                 $('#file-name-display').text(''); // Limpia el nombre del archivo mostrado
-            //             } else {
-            //                 toastr.error('Hubo un problema al subir el archivo.'); // Muestra el mensaje de error
-            //             }
-            //         },
-            //         error: function(xhr, status, error) {
-            //             toastr.error('Hubo un error con la solicitud.'); // Muestra un mensaje si hay un error
-            //         }
-            //     });
-            // }
 
                 let contadorFallecidos = 1;
 
