@@ -15,9 +15,7 @@
                                 <th style="width: 10%">Periodo de mora</th>
                                 <th style="width: 10%">Personas en mora</th>
                                 <th style="width: 10%"> Opciones</th>
-{{--                                <th style="width: 10%">Cancelación sin el 5%</th>--}}
-{{--                                <th style="width: 10%">Próxima fecha de vencimiento</th>--}}
-{{--                                <th style="width: 10%">Contribuyente</th>--}}
+
                             </tr>
                             </thead>
                             <tbody>

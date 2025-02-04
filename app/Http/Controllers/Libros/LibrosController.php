@@ -9,6 +9,7 @@ use App\Models\Usuario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -130,29 +131,58 @@ class LibrosController extends Controller
         }
     }
 
-    public function infoUsuarios(Request $request)
+    public function infoUsuarios($id)
     {
-        // Busca el proveedor por ID
-        $info = Libros::where('id', $request->id)->first();
+        $libro = Libros::find($id);
 
-        if ($info) {
-            // Obtén todos los usuarios para llenar el select
-            $usuarios = Usuario::all()->pluck('nombre', 'id')->toArray();
-
-            return [
-                'success' => 1,
-                'info' => $info // Información del proveedor
-
-            ];
-        } else {
-            // Si no se encuentra el proveedor, devuelve un error
-            return ['success' => 2];
+        if (!$libro) {
+            return response()->json(['success' => 0, 'message' => 'Libro no encontrado']);
         }
+
+        return response()->json([
+            'success' => 1,
+            'info' => $libro
+        ]);
     }
+
+
+
 
     public function registroEditar(Request $request)
     {
         Log::info('Datos recibidos:', $request->all());
+
+        // Validar los datos del request
+        $reglas = [
+            'id' => 'required|exists:libros,id', // Asegura que el ID exista en la tabla libros
+            'libro' => 'required|string|max:255',
+            'nicho' => 'required|string|max:50',
+            'nombre' => 'required|string|max:255',
+            'fechafallecimiento' => 'required|date',
+            'fechaexhumacion' => 'required|date',
+            'fechavencimiento' => 'required|date',
+            'periodo_en_mora' => 'nullable|string|max:255',
+            'persona_en_mora' => 'nullable|string|max:255',
+            'cancelacion_sin' => 'nullable|string|max:255',
+            'proxfecha' => 'nullable|date',
+            'contrcancela' => 'required|string|max:255',
+            'dui' => 'required|string|max:10',
+            'direccion' => 'required|string|max:255',
+            'telefono' => 'required|string|max:8',
+            'periodocancelado' => 'nullable|string|max:255',
+            'costosin' => 'nullable|numeric',
+            'costocon' => 'nullable|numeric',
+            'recibo' => 'nullable|string|max:255',
+            'fechateso' => 'nullable|date',
+        ];
+
+        $validador = Validator::make($request->all(), $reglas);
+
+        // Si la validación falla, retornar los errores
+        if ($validador->fails()) {
+            return response()->json(['success' => 0, 'errors' => $validador->errors()]);
+        }
+
         // Busca el registro por ID
         $libro = Libros::find($request->id);
 
@@ -161,26 +191,27 @@ class LibrosController extends Controller
             DB::beginTransaction();
 
             try {
-                Libros::where('id', $request->id)->update([
+                // Actualiza el registro
+                $libro->update([
                     'libro' => $request->libro,
                     'numero_de_nicho' => $request->nicho,
                     'nombre' => $request->nombre,
-                    'fecha_de_fallecimiento' => $request->fechafallecimiento, // Cambiado
-                    'fecha_de_exhumacion' => $request->fechaexhumacion, // Cambiado
-                    'fecha_de_vencimiento' => $request->fechavencimiento, // Cambiado
-                    'periodo_de_mora' => $request->periodo_en_mora, // Cambiado
-                    'personas_en_mora' => $request->persona_en_mora, // Cambiado
-                    'cancelacion_sin_5' => $request->cancelacion_sin, // Cambiado
-                    'prox_fecha_venc' => $request->proxfecha, // Cambiado
-                    'contribuyente' => $request->contrcancela, // Cambiado
+                    'fecha_de_fallecimiento' => $request->fechafallecimiento,
+                    'fecha_de_exhumacion' => $request->fechaexhumacion,
+                    'fecha_de_vencimiento' => $request->fechavencimiento,
+                    'periodo_de_mora' => $request->periodo_en_mora,
+                    'personas_en_mora' => $request->persona_en_mora,
+                    'cancelacion_sin_5' => $request->cancelacion_sin,
+                    'prox_fecha_venc' => $request->proxfecha,
+                    'contribuyente' => $request->contrcancela,
                     'dui' => $request->dui,
                     'direccion' => $request->direccion,
                     'telefono' => $request->telefono,
-                    'periodo_cancelados' => $request->periodocancelado, // Cambiado
-                    'costo_sin_5' => $request->costosin, // Cambiado
-                    'costo_con_5' => $request->costocon, // Cambiado
-                    'recibo_tesoreria' => $request->recibo, // Cambiado
-                    'fecha_ingreso_tesoreria' => $request->fechateso, // Cambiado
+                    'periodo_cancelados' => $request->periodocancelado,
+                    'costo_sin_5' => $request->costosin,
+                    'costo_con_5' => $request->costocon,
+                    'recibo_tesoreria' => $request->recibo,
+                    'fecha_ingreso_tesoreria' => $request->fechateso,
                 ]);
 
                 // Confirma la transacción
