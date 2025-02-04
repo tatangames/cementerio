@@ -210,52 +210,52 @@
 
                 </div>
 
-{{--                <div class="modal fade" id="modalAgregar">--}}
-{{--                    <div class="modal-dialog modal-lg">--}}
-{{--                        <div class="modal-content">--}}
-{{--                            <div class="modal-header">--}}
-{{--                                <h4 class="modal-title">Registro</h4>--}}
-{{--                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">--}}
-{{--                                    <span aria-hidden="true">&times;</span>--}}
-{{--                                </button>--}}
-{{--                            </div>--}}
-{{--                            <div class="modal-body">--}}
-{{--                                <form id="formulario-nuevo" enctype="multipart/form-data">--}}
-{{--                                    <div class="card-body">--}}
+                <div class="modal fade" id="modalAgregar">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Registro</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="formulario-nuevo" enctype="multipart/form-data">
+                                    <div class="card-body">
 
-{{--                                        <div class="form-group">--}}
-{{--                                            <input type="hidden" id="id-editar">--}}
-{{--                                        </div>--}}
+                                        <div class="form-group">
+                                            <input type="hidden" id="id-editar">
+                                        </div>
 
-{{--                                        <div class="form-group d-flex align-items-center">--}}
-{{--                                            <label class="modallabel">Nombre fallecido</label>--}}
-{{--                                            <input type="text" maxlength="50" autocomplete="off" class="form-control" id="nombreeditar2" >--}}
-{{--                                        </div>--}}
-{{--                                        <div class="form-group d-flex align-items-center">--}}
-{{--                                            <label class="modallabel">Fecha de fallecimiento:</label>--}}
-{{--                                            <input type="date" maxlength="50" autocomplete="off" class="date" id="fechafallecimiento-editar" >--}}
-{{--                                        </div>--}}
-{{--                                        <div class="form-group d-flex align-items-center">--}}
-{{--                                            <label class="modallabel">Fecha de exhumacion:</label>--}}
-{{--                                            <input type="date" maxlength="50" autocomplete="off" class="date" id="fechaexhumacion-editar" >--}}
-{{--                                        </div>--}}
+                                        <div class="form-group d-flex align-items-center">
+                                            <label class="modallabel">Nombre fallecido</label>
+                                            <input type="text" maxlength="50" autocomplete="off" class="form-control" id="nombreeditar2" >
+                                        </div>
+                                        <div class="form-group d-flex align-items-center">
+                                            <label class="modallabel">Fecha de fallecimiento:</label>
+                                            <input type="date" maxlength="50" autocomplete="off" class="date" id="fechafallecimiento-editar" >
+                                        </div>
+                                        <div class="form-group d-flex align-items-center">
+                                            <label class="modallabel">Fecha de exhumacion:</label>
+                                            <input type="date" maxlength="50" autocomplete="off" class="date" id="fechaexhumacion-editar" >
+                                        </div>
 
-{{--                                    </div>--}}
-{{--                                </form>--}}
-{{--                            </div>--}}
-{{--                            <div class="modal-footer justify-content-between">--}}
-{{--                                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>--}}
-{{--                                <button--}}
-{{--                                    type="button"--}}
-{{--                                    style="font-weight: bold; background-color: #28a745; color: white !important;"--}}
-{{--                                    class="button button-rounded button-pill button-small"--}}
-{{--                                    onclick="nuevo();">--}}
-{{--                                    Guardar--}}
-{{--                                </button>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer justify-content-between">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                                <button
+                                    type="button"
+                                    style="font-weight: bold; background-color: #28a745; color: white !important;"
+                                    class="button button-rounded button-pill button-small"
+                                    onclick="nuevo();">
+                                    Guardar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
             </div>
             <button type="button" id="btnEditar" class="btn btn-primary">Editar</button>
