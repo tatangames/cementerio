@@ -77,12 +77,10 @@
         label{
             color: white;
         }
-        .date {
-            width: 10%; !important;
-            padding: 5px;
-            font-size: 16px;
-
+        .modallabel{
+            color: black;
         }
+
 
     </style>
 </head>
@@ -98,23 +96,24 @@
 </div>
 
 <div class="modal-body">
-    <form id="formulario-nuevo" enctype="multipart/form-data">
+    <form id="formulario-nuevo-fallecidos" enctype="multipart/form-data">
         <div class="card-body">
             <input type="hidden" id="id-editar">
             <!-- Fila 1: Nombre y Fecha de fallecimiento -->
             <div class="fila">
                 <div class="form-group-peque d-flex align-items-center" style="gap: 10px;">
                     <label >Libro:</label>
-                    <input type="number" maxlength="50" autocomplete="off" class="form-control" id="libro" readonly>
+                    <input type="text" maxlength="50" autocomplete="off" class="form-control" id="libro" readonly>
 
 
 
                     <label>Nicho:</label>
-                    <input type="number" maxlength="50" autocomplete="off" class="form-control" id="nicho" readonly>
+                    <input type="text" maxlength="50" autocomplete="off" class="form-control" id="nicho" readonly>
                 </div>
             </div>
 
 
+                {{--Fila 2--}}
             <div class="fila">
 
                 <div class="form-group d-flex align-items-center">
@@ -132,7 +131,12 @@
 
             </div>
 
+            <button type="button"  onclick="modalAgregar()">
+                <i class="fas fa-pencil-alt"></i>
+                Agregar fallecidos
+            </button>
 
+{{--            Fila 3--}}
             <div class="fila">
 
                 <div class="form-group">
@@ -161,15 +165,15 @@
             <div class="fila">
                 <div class="form-group">
                     <label>Contribuyente que cancela:</label>
-                    <input type="text" maxlength="250" autocomplete="off" class="form-control" id="contrcancela" readonly>
+                    <input type="text" maxlength="50" autocomplete="off" class="form-control" id="contrcancela" readonly>
                 </div>
                 <div class="form-group">
                     <label>DUI:</label>
-                    <input type="text" maxlength="10" autocomplete="off" class="form-control" id="dui" readonly>
+                    <input type="text" maxlength="8" autocomplete="off" class="form-control" id="dui" readonly>
                 </div>
                 <div class="form-group">
                     <label>Direccion:</label>
-                    <input type="text" maxlength="250" autocomplete="off" class="form-control" id="direccion" readonly>
+                    <input type="text" maxlength="8" autocomplete="off" class="form-control" id="direccion" readonly>
                 </div>
                 <div class="form-group">
                     <label>Telefono:</label>
@@ -205,6 +209,53 @@
                 <div class="form-group">
 
                 </div>
+
+{{--                <div class="modal fade" id="modalAgregar">--}}
+{{--                    <div class="modal-dialog modal-lg">--}}
+{{--                        <div class="modal-content">--}}
+{{--                            <div class="modal-header">--}}
+{{--                                <h4 class="modal-title">Registro</h4>--}}
+{{--                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">--}}
+{{--                                    <span aria-hidden="true">&times;</span>--}}
+{{--                                </button>--}}
+{{--                            </div>--}}
+{{--                            <div class="modal-body">--}}
+{{--                                <form id="formulario-nuevo" enctype="multipart/form-data">--}}
+{{--                                    <div class="card-body">--}}
+
+{{--                                        <div class="form-group">--}}
+{{--                                            <input type="hidden" id="id-editar">--}}
+{{--                                        </div>--}}
+
+{{--                                        <div class="form-group d-flex align-items-center">--}}
+{{--                                            <label class="modallabel">Nombre fallecido</label>--}}
+{{--                                            <input type="text" maxlength="50" autocomplete="off" class="form-control" id="nombreeditar2" >--}}
+{{--                                        </div>--}}
+{{--                                        <div class="form-group d-flex align-items-center">--}}
+{{--                                            <label class="modallabel">Fecha de fallecimiento:</label>--}}
+{{--                                            <input type="date" maxlength="50" autocomplete="off" class="date" id="fechafallecimiento-editar" >--}}
+{{--                                        </div>--}}
+{{--                                        <div class="form-group d-flex align-items-center">--}}
+{{--                                            <label class="modallabel">Fecha de exhumacion:</label>--}}
+{{--                                            <input type="date" maxlength="50" autocomplete="off" class="date" id="fechaexhumacion-editar" >--}}
+{{--                                        </div>--}}
+
+{{--                                    </div>--}}
+{{--                                </form>--}}
+{{--                            </div>--}}
+{{--                            <div class="modal-footer justify-content-between">--}}
+{{--                                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>--}}
+{{--                                <button--}}
+{{--                                    type="button"--}}
+{{--                                    style="font-weight: bold; background-color: #28a745; color: white !important;"--}}
+{{--                                    class="button button-rounded button-pill button-small"--}}
+{{--                                    onclick="nuevo();">--}}
+{{--                                    Guardar--}}
+{{--                                </button>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
 
             </div>
             <button type="button" id="btnEditar" class="btn btn-primary">Editar</button>
@@ -366,6 +417,55 @@
                     .catch(error => {
                         console.error('Error al enviar los datos:', error);
                         toastr.error('Error al guardar los datos');
+                    });
+            }
+
+            function modalAgregar(){
+
+                $('#modalAgregar').modal({backdrop: 'static', keyboard: false})
+            }
+
+            function guardarFallecido() {
+                // Obtén los valores del formulario
+                var id = document.getElementById('id-editar').value;
+                var nombre = document.getElementById('nombre-editar2');
+                var fechaFallecimientoEditar = document.getElementById('fechafallecimiento-editar').value;
+                var fechaexhumacionEditar = document.getElementById('fechaexhumacion-editar').value;
+
+
+
+                // Validación básica
+                if (nombre === '') {
+                    toastr.error('Nombre es requerido');
+                    return;
+                }
+
+                // Muestra el loader
+                openLoading();
+
+                // Crea el objeto FormData y agrega los datos
+                var formData = new FormData();
+                formData.append('id', id);
+                formData.append('fechaFallecimiento', fechaFallecimientoEditar);
+                formData.append('nombre', nombre);
+                formData.append('fechaexhumacion', fechaexhumacionEditar);
+
+                // Envía la solicitud al backend
+                axios.post(url + '/editarusuario/editar', formData)
+                    .then((response) => {
+                        console.log(response)
+                        closeLoading();
+                        if (response.data.success === 1) {
+                            toastr.success('Actualizado correctamente');
+                            $('#modalEditar').modal('hide'); // Cierra el modal
+                            recargar(); // Recarga los datos en la tabla o vista
+                        } else {
+                            toastr.error('Error al guardar');
+                        }
+                    })
+                    .catch((error) => {
+                        toastr.error('Error al guardar');
+                        closeLoading();
                     });
             }
 

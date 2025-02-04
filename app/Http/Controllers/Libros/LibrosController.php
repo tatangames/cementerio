@@ -152,36 +152,6 @@ class LibrosController extends Controller
     {
         Log::info('Datos recibidos:', $request->all());
 
-        // Validar los datos del request
-        $reglas = [
-            'id' => 'required|exists:libros,id', // Asegura que el ID exista en la tabla libros
-            'libro' => 'required|string|max:255',
-            'nicho' => 'required|string|max:50',
-            'nombre' => 'required|string|max:255',
-            'fechafallecimiento' => 'required|date',
-            'fechaexhumacion' => 'required|date',
-            'fechavencimiento' => 'required|date',
-            'periodo_en_mora' => 'nullable|string|max:255',
-            'persona_en_mora' => 'nullable|string|max:255',
-            'cancelacion_sin' => 'nullable|string|max:255',
-            'proxfecha' => 'nullable|date',
-            'contrcancela' => 'required|string|max:255',
-            'dui' => 'required|string|max:10',
-            'direccion' => 'required|string|max:255',
-            'telefono' => 'required|string|max:8',
-            'periodocancelado' => 'nullable|string|max:255',
-            'costosin' => 'nullable|numeric',
-            'costocon' => 'nullable|numeric',
-            'recibo' => 'nullable|string|max:255',
-            'fechateso' => 'nullable|date',
-        ];
-
-        $validador = Validator::make($request->all(), $reglas);
-
-        // Si la validación falla, retornar los errores
-        if ($validador->fails()) {
-            return response()->json(['success' => 0, 'errors' => $validador->errors()]);
-        }
 
         // Busca el registro por ID
         $libro = Libros::find($request->id);
@@ -229,5 +199,10 @@ class LibrosController extends Controller
         } else {
             return response()->json(['success' => 3]); // Registro no encontrado
         }
+    }
+
+    function guardarFallecido()
+    {
+
     }
 }
