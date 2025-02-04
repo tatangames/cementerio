@@ -161,15 +161,15 @@
             <div class="fila">
                 <div class="form-group">
                     <label>Contribuyente que cancela:</label>
-                    <input type="text" maxlength="250" autocomplete="off" class="form-control" id="contrcancela" readonly>
+                    <input type="text" maxlength="50" autocomplete="off" class="form-control" id="contrcancela" readonly>
                 </div>
                 <div class="form-group">
                     <label>DUI:</label>
-                    <input type="text" maxlength="10" autocomplete="off" class="form-control" id="dui" readonly>
+                    <input type="text" maxlength="8" autocomplete="off" class="form-control" id="dui" readonly>
                 </div>
                 <div class="form-group">
                     <label>Direccion:</label>
-                    <input type="text" maxlength="250" autocomplete="off" class="form-control" id="direccion" readonly>
+                    <input type="text" maxlength="8" autocomplete="off" class="form-control" id="direccion" readonly>
                 </div>
                 <div class="form-group">
                     <label>Telefono:</label>

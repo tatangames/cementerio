@@ -91,7 +91,39 @@ class LibrosController extends Controller
     {
         DB::beginTransaction();
 
+        Log::info('Datos recibidos:', $request->all());
+
         try {
+
+            $request->validate([
+                'libro' => 'required|string|max:50',
+                'nombre' => 'required|string|max:50',
+                'numero_de_nicho' => 'nullable|string|max:8',
+
+                // Fechas
+                'fecha_de_fallecimiento' => 'nullable|date',
+                'fecha_de_exhumacion' => 'nullable|date',
+                'fecha_de_vencimiento' => 'nullable|date',
+
+                // Información adicional
+                'periodo_de_mora' => 'nullable|integer|min:0', // unsignedInteger
+                'personas_en_mora' => 'nullable|string',
+                'cancelacion_sin_5' => 'nullable|numeric|min:0', // decimal(8,2)
+                'prox_fecha_venc' => 'nullable|date',
+
+                // Cancelación refrendas
+                'contribuyente' => 'nullable|string|max:50',
+                'dui' => 'nullable|string|regex:/^\d{8}-\d$/|max:10', // Validar formato DUI
+                'direccion' => 'required|string|max:150',
+                'telefono' => 'nullable|string|max:8',
+                'periodo_cancelados' => 'nullable|string|max:2',
+                'costo_sin_5' => 'nullable|numeric|min:0', // decimal(8,2)
+                'costo_con_5' => 'nullable|numeric|min:0', // decimal(8,2)
+                'recibo_tesoreria' => 'nullable|string|max:10|unique:registrosce,recibo_tesoreria',
+                'fecha_ingreso_tesoreria' => 'nullable|date',
+            ]);
+
+
             // Crear un nuevo registro en la base de datos
             $dato = new Libros();
 
@@ -152,36 +184,34 @@ class LibrosController extends Controller
     {
         Log::info('Datos recibidos:', $request->all());
 
-        // Validar los datos del request
-        $reglas = [
-            'id' => 'required|exists:libros,id', // Asegura que el ID exista en la tabla libros
-            'libro' => 'required|string|max:255',
-            'nicho' => 'required|string|max:50',
-            'nombre' => 'required|string|max:255',
-            'fechafallecimiento' => 'required|date',
-            'fechaexhumacion' => 'required|date',
-            'fechavencimiento' => 'required|date',
-            'periodo_en_mora' => 'nullable|string|max:255',
-            'persona_en_mora' => 'nullable|string|max:255',
-            'cancelacion_sin' => 'nullable|string|max:255',
-            'proxfecha' => 'nullable|date',
-            'contrcancela' => 'required|string|max:255',
-            'dui' => 'required|string|max:10',
-            'direccion' => 'required|string|max:255',
-            'telefono' => 'required|string|max:8',
-            'periodocancelado' => 'nullable|string|max:255',
-            'costosin' => 'nullable|numeric',
-            'costocon' => 'nullable|numeric',
-            'recibo' => 'nullable|string|max:255',
-            'fechateso' => 'nullable|date',
-        ];
+        $request->validate([
+            'libro' => 'required|string|max:50',
+            'nombre' => 'required|string|max:50',
+            'numero_de_nicho' => 'nullable|string|max:8',
 
-        $validador = Validator::make($request->all(), $reglas);
+            // Fechas
+            'fecha_de_fallecimiento' => 'nullable|date',
+            'fecha_de_exhumacion' => 'nullable|date',
+            'fecha_de_vencimiento' => 'nullable|date',
 
-        // Si la validación falla, retornar los errores
-        if ($validador->fails()) {
-            return response()->json(['success' => 0, 'errors' => $validador->errors()]);
-        }
+            // Información adicional
+            'periodo_de_mora' => 'nullable|integer|min:0', // unsignedInteger
+            'personas_en_mora' => 'nullable|string',
+            'cancelacion_sin_5' => 'nullable|numeric|min:0', // decimal(8,2)
+            'prox_fecha_venc' => 'nullable|date',
+
+            // Cancelación refrendas
+            'contribuyente' => 'nullable|string|max:50',
+            'dui' => 'nullable|string|regex:/^\d{8}-\d$/|max:10', // Validar formato DUI
+            'direccion' => 'required|string|max:150',
+            'telefono' => 'nullable|string|max:8',
+            'periodo_cancelados' => 'nullable|string|max:2',
+            'costo_sin_5' => 'nullable|numeric|min:0', // decimal(8,2)
+            'costo_con_5' => 'nullable|numeric|min:0', // decimal(8,2)
+            'recibo_tesoreria' => 'nullable|string|max:10|unique:registrosce,recibo_tesoreria',
+            'fecha_ingreso_tesoreria' => 'nullable|date',
+        ]);
+
 
         // Busca el registro por ID
         $libro = Libros::find($request->id);
