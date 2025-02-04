@@ -31,5 +31,6 @@ class Libros extends Model
         'costo_con_5',
         'recibo_tesoreria',
         'fecha_ingreso_tesoreria',
+
     ];
 }
