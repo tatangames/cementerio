@@ -49,6 +49,7 @@ class LibrosController extends Controller
 
 
             $data = Libros::where('nombre', 'LIKE', "%{$query}%")
+                ->orWhere('dui', 'LIKE', "%{$query}%")
 //                ->whereIn('id_objespecifico', $pilaObjEspeci)
                 ->get();
 
@@ -56,7 +57,7 @@ class LibrosController extends Controller
             $tiene = true;
             foreach ($data as $row) {
                 $infofallecido = Libros::where('id', $row->id)->first();
-                $nombreCompleto = $row->nombre . " (" . $infofallecido->nombre . ")";
+                $nombreCompleto = $row->nombre . " (" . $row->dui . ")";
 
                 // si solo hay 1 fila, No mostrara el hr, salto de linea
                 if (count($data) == 1) {
