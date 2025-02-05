@@ -98,7 +98,7 @@
 <div class="modal-body">
     <form id="formulario-nuevo-fallecidos" enctype="multipart/form-data">
         <div class="card-body">
-            <input type="hidden" id="id-editar">
+            <input type="hidden" id="id-editar-nuevo">
             <!-- Fila 1: Nombre y Fecha de fallecimiento -->
             <div class="fila">
                 <div class="form-group-peque d-flex align-items-center" style="gap: 10px;">
@@ -128,6 +128,10 @@
                     <label>Fecha de exhumacion:</label>
                     <input type="date" maxlength="50" autocomplete="off" class="date" id="fechaexhumacion" readonly>
                 </div>
+
+                <tbody id="cuerpoTabla">
+                <!-- AQUI QUIERO QUE SE GUARDE LOS CAMPOS QUE ACABO DE AGREGAR CON EL MODAL -->
+                </tbody>
 
             </div>
 
@@ -298,7 +302,7 @@
                             let info = response.data.info;
 
                             // Asigna el id al campo oculto
-                            document.getElementById('id-editar').value = id;
+                            document.getElementById('id-editar-nuevo').value = id;
 
                             // Llenar los campos con la información obtenida
                             $('#libro').val(info.libro);
@@ -345,7 +349,7 @@
 
             function guardar() {
                 // Obtén el valor del campo id
-                const id = document.getElementById('id-editar').value;
+                const id = document.getElementById('id-editar-nuevo').value;
 
                 // Verifica que el id esté presente
                 if (!id) {
@@ -425,49 +429,112 @@
                 $('#modalAgregar').modal({backdrop: 'static', keyboard: false})
             }
 
-            function guardarFallecido() {
-                // Obtén los valores del formulario
-                var id = document.getElementById('id-editar').value;
-                var nombre = document.getElementById('nombre-editar2');
-                var fechaFallecimientoEditar = document.getElementById('fechafallecimiento-editar').value;
-                var fechaexhumacionEditar = document.getElementById('fechaexhumacion-editar').value;
+            // function guardarFallecido() {
+            //     // Obtén los valores del formulario
+            //     var id = document.getElementById('id-editar').value;
+            //     var nombre = document.getElementById('nombre-editar2');
+            //     var fechaFallecimientoEditar = document.getElementById('fechafallecimiento-editar').value;
+            //     var fechaexhumacionEditar = document.getElementById('fechaexhumacion-editar').value;
+            //
+            //
+            //
+            //     // Validación básica
+            //     if (nombre === '') {
+            //         toastr.error('Nombre es requerido');
+            //         return;
+            //     }
+            //
+            //     // Muestra el loader
+            //     openLoading();
+            //
+            //     // Crea el objeto FormData y agrega los datos
+            //     var formData = new FormData();
+            //     formData.append('id', id);
+            //     formData.append('fechaFallecimiento', fechaFallecimientoEditar);
+            //     formData.append('nombre', nombre);
+            //     formData.append('fechaexhumacion', fechaexhumacionEditar);
+            //
+            //     // Envía la solicitud al backend
+            //     axios.post(url + '/editarusuario/editar', formData)
+            //         .then((response) => {
+            //             console.log(response)
+            //             closeLoading();
+            //             if (response.data.success === 1) {
+            //                 toastr.success('Actualizado correctamente');
+            //                 $('#modalEditar').modal('hide'); // Cierra el modal
+            //                 recargar(); // Recarga los datos en la tabla o vista
+            //             } else {
+            //                 toastr.error('Error al guardar');
+            //             }
+            //         })
+            //         .catch((error) => {
+            //             toastr.error('Error al guardar');
+            //             closeLoading();
+            //         });
+            // }
 
 
 
-                // Validación básica
-                if (nombre === '') {
-                    toastr.error('Nombre es requerido');
+            function nuevo() {
+                const idPrincipal = {{ $id }};
+
+                // Capturar los datos del modal
+                const nombre = document.getElementById('nombreeditar2').value;
+                const fechaFallecimiento = document.getElementById('fechafallecimiento-editar').value;
+                const fechaExhumacion = document.getElementById('fechaexhumacion-editar').value;
+
+                // Validar que los campos no estén vacíos
+                if (!nombre || !fechaFallecimiento) {
+                    toastr.warning("Por favor, completa todos los campos obligatorios.");
                     return;
                 }
 
-                // Muestra el loader
-                openLoading();
+                // Construir el objeto de datos
+                const data = {
+                    id_principal: idPrincipal,
+                    nombre: nombre,
+                    fecha_fallecimiento: fechaFallecimiento,
+                    fecha_exhumacion: fechaExhumacion
+                };
 
-                // Crea el objeto FormData y agrega los datos
-                var formData = new FormData();
-                formData.append('id', id);
-                formData.append('fechaFallecimiento', fechaFallecimientoEditar);
-                formData.append('nombre', nombre);
-                formData.append('fechaexhumacion', fechaexhumacionEditar);
+                // Enviar los datos al backend con Axios
+                axios.post("{{ url('/admin/informacion/guardar-fallecido') }}", data)
+                    .then(response => {
+                        if (response.data.success) {
+                            toastr.success("Fallecido agregado correctamente");
 
-                // Envía la solicitud al backend
-                axios.post(url + '/editarusuario/editar', formData)
-                    .then((response) => {
-                        console.log(response)
-                        closeLoading();
-                        if (response.data.success === 1) {
-                            toastr.success('Actualizado correctamente');
-                            $('#modalEditar').modal('hide'); // Cierra el modal
-                            recargar(); // Recarga los datos en la tabla o vista
+                            // Cerrar el modal
+                            $('#modalAgregar').modal('hide');
+
+                            // Limpiar los campos del modal
+                            document.getElementById('nombreeditar2').value = '';
+                            document.getElementById('fechafallecimiento-editar').value = '';
+                            document.getElementById('fechaexhumacion-editar').value = '';
+
+                            // Agregar la nueva fila a la tabla
+                            agregarFilaTabla(response.data.fallecido);
                         } else {
-                            toastr.error('Error al guardar');
+                            toastr.error("Error al guardar los datos");
                         }
                     })
-                    .catch((error) => {
-                        toastr.error('Error al guardar');
-                        closeLoading();
+                    .catch(error => {
+                        toastr.error("Error en la petición");
+                        console.error(error);
                     });
             }
+
+            // Función para agregar una nueva fila en la tabla de fallecidos
+            function agregarFilaTabla(fallecido) {
+                let tbody = document.querySelector("#cuerpoTabla");
+                let fila = document.createElement("tr");
+                fila.innerHTML = `
+        <td>${fallecido.nombre}</td>
+        <td>${fallecido.fecha_fallecimiento}</td>
+        <td>${fallecido.fecha_exhumacion || 'N/A'}</td>
+    `;
+                tbody.appendChild(fila);
+            }
+
 
 
 
