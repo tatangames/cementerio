@@ -40,7 +40,7 @@ class LibrosController extends Controller
 
 //            foreach ($arrayCodigo as $fila) {
 //                array_push($pilaObjEspeci, $fila->id_objespecifico);
-//            }
+//            } lalallalalalala
 
 
             $data = Libros::where('nombre', 'LIKE', "%{$query}%")
