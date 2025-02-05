@@ -62,6 +62,8 @@
             height: auto;
         }
 
+
+
         .title-container {
             margin: 10px 0;
         }
@@ -234,6 +236,8 @@
 
 
         function buscarFallecido(e){
+
+
 
             // seguro para evitar errores de busqueda continua
             if(seguroBuscador){

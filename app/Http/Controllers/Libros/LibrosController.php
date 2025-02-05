@@ -45,13 +45,14 @@ class LibrosController extends Controller
 
             $data = Libros::where('nombre', 'LIKE', "%{$query}%")
 //                ->whereIn('id_objespecifico', $pilaObjEspeci)
+                    ->orWhere('dui', 'LIKE', "%{$query}%")
                 ->get();
 
             $output = '<ul class="dropdown-menu" style="display:block; position:relative; overflow: auto; max-height: 300px; width: 550px">';
             $tiene = true;
             foreach ($data as $row) {
                 $infofallecido = Libros::where('id', $row->id)->first();
-                $nombreCompleto = $row->nombre . " (" . $infofallecido->nombre . ")";
+                $nombreCompleto = $row->nombre . " (" . $row->dui . ")";
 
                 // si solo hay 1 fila, No mostrara el hr, salto de linea
                 if (count($data) == 1) {
@@ -184,33 +185,7 @@ class LibrosController extends Controller
     {
         Log::info('Datos recibidos:', $request->all());
 
-        $request->validate([
-            'libro' => 'required|string|max:50',
-            'nombre' => 'required|string|max:50',
-            'numero_de_nicho' => 'nullable|string|max:8',
 
-            // Fechas
-            'fecha_de_fallecimiento' => 'nullable|date',
-            'fecha_de_exhumacion' => 'nullable|date',
-            'fecha_de_vencimiento' => 'nullable|date',
-
-            // Información adicional
-            'periodo_de_mora' => 'nullable|integer|min:0', // unsignedInteger
-            'personas_en_mora' => 'nullable|string',
-            'cancelacion_sin_5' => 'nullable|numeric|min:0', // decimal(8,2)
-            'prox_fecha_venc' => 'nullable|date',
-
-            // Cancelación refrendas
-            'contribuyente' => 'nullable|string|max:50',
-            'dui' => 'nullable|string|regex:/^\d{8}-\d$/|max:10', // Validar formato DUI
-            'direccion' => 'required|string|max:150',
-            'telefono' => 'nullable|string|max:8',
-            'periodo_cancelados' => 'nullable|string|max:2',
-            'costo_sin_5' => 'nullable|numeric|min:0', // decimal(8,2)
-            'costo_con_5' => 'nullable|numeric|min:0', // decimal(8,2)
-            'recibo_tesoreria' => 'nullable|string|max:10|unique:registrosce,recibo_tesoreria',
-            'fecha_ingreso_tesoreria' => 'nullable|date',
-        ]);
 
 
         // Busca el registro por ID
