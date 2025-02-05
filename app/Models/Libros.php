@@ -33,4 +33,10 @@ class Libros extends Model
         'fecha_ingreso_tesoreria',
 
     ];
+
+    // Relación con los fallecidos
+    public function fallecido()
+    {
+        return $this->hasMany(Fallecidos::class, 'id_registrosce');
+    }
 }

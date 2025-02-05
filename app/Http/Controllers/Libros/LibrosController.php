@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Libros;
 
 use App\Http\Controllers\Controller;
 use App\Models\Libros;
+use App\Models\Fallecidos;
 use App\Models\Proveedores;
 use App\Models\Usuario;
 use Illuminate\Http\Request;
@@ -16,13 +17,17 @@ use Illuminate\Support\Str;
 
 class LibrosController extends Controller
 {
-    public function vistaLibro1(){
+    public function vistaLibro1()
+    {
         return view('backend.admin.libros.vistaregistros');
     }
-    public function vistaTabla(){
+
+    public function vistaTabla()
+    {
         $arraylibros = Libros::take(10)->get();
         return view('backend.admin.libros.tablas.tablavistaregistro', compact('arraylibros'));
     }
+
     public function vistaLibrosEditar()
     {
 
@@ -82,9 +87,8 @@ class LibrosController extends Controller
     public function mostrarDetalle($id)
     {
         $fallecido = Libros::findOrFail($id);  // Obtener el fallecido por su ID
-        return view('backend.admin.libros.detalle', compact('fallecido'));
+        return view('backend.admin.libros.detalle', compact('fallecido', 'id'));
     }
-
 
 
     public function registroGuardar(Request $request)
@@ -146,8 +150,6 @@ class LibrosController extends Controller
     }
 
 
-
-
     public function registroEditar(Request $request)
     {
         Log::info('Datos recibidos:', $request->all());
@@ -201,8 +203,38 @@ class LibrosController extends Controller
         }
     }
 
-    function guardarFallecido()
+    public function guardarFallecido(Request $request)
     {
+        Log::info('Datos recibidos:', $request->all());
+        // Validar la entrada
+//        $request->validate([
+//            'id_registrosce' => 'required|exists:registrofallecidos,id', // Ajusta el nombre de la tabla principal
+//            'nombre' => 'required|string|max:50',
+//            'fecha_de_fallecimiento' => 'required|date',
+//            'fecha_de_exhumacion' => 'nullable|date'
+//        ]);
 
+        try {
+
+            $fallecido = new Fallecidos();
+            $fallecido->id_registrosce = $request->id_principal;
+            $fallecido->nombre = $request->nombre;
+            $fallecido->fecha_de_fallecimiento = $request->fecha_fallecimiento;
+            $fallecido->fecha_de_exhumacion = $request->fecha_exhumacion;
+            $fallecido->save();
+
+            return response()->json([
+                'success' => true,
+
+                'fallecido' => $fallecido
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Error al guardar fallecido: ' . $e->getMessage());
+            Log::error('Stack trace: ' . $e->getTraceAsString());
+            return response()->json([
+                'success' => false,
+                'message' => 'Error al guardar: ' . $e->getMessage()
+            ], 500);
+        }
     }
 }

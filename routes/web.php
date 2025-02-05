@@ -62,7 +62,8 @@ Route::get('/admin/editar/index', [LibrosController::class,'vistaTabla']);
 Route::post('/admin/guardarlibro/index', [LibrosController::class,'registroGuardar']);
 Route::get('/admin/informacion/info-usuario/{id}', [LibrosController::class, 'infoUsuarios']);
 Route::post('/admin/editarusuario/editar', [LibrosController::class, 'registroEditar']);
-Route::post('/admin/guardanuevofalle/guardar', [LibrosController::class, 'guardarFallecido']);
+Route::post('/admin/informacion/guardar-fallecido', [LibrosController::class, 'guardarFallecido']);
+
 
 
 
