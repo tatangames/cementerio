@@ -129,10 +129,11 @@
                     <input type="date" maxlength="50" autocomplete="off" class="date" id="fechaexhumacion" readonly>
                 </div>
 
-                <tbody id="cuerpoTabla">
-                <!-- AQUI QUIERO QUE SE GUARDE LOS CAMPOS QUE ACABO DE AGREGAR CON EL MODAL -->
-                </tbody>
 
+
+            </div>
+            <div id="listaFallecidos">
+                <!-- Aquí se mostrarán los datos ingresados -->
             </div>
 
             <button type="button"  onclick="modalAgregar()">
@@ -324,6 +325,11 @@
                             $('#costocon').val(info.costo_con_5);
                             $('#recibo').val(info.recibo_tesoreria);
                             $('#fechateso').val(info.fecha_ingreso_tesoreria);
+
+                            // Aplicar el estilo a la fecha de vencimiento
+                            aplicarEstiloFechaVencimiento();
+
+
                         } else {
                             toastr.error('No se encontró información para este libro');
                         }
@@ -429,50 +435,6 @@
                 $('#modalAgregar').modal({backdrop: 'static', keyboard: false})
             }
 
-            // function guardarFallecido() {
-            //     // Obtén los valores del formulario
-            //     var id = document.getElementById('id-editar').value;
-            //     var nombre = document.getElementById('nombre-editar2');
-            //     var fechaFallecimientoEditar = document.getElementById('fechafallecimiento-editar').value;
-            //     var fechaexhumacionEditar = document.getElementById('fechaexhumacion-editar').value;
-            //
-            //
-            //
-            //     // Validación básica
-            //     if (nombre === '') {
-            //         toastr.error('Nombre es requerido');
-            //         return;
-            //     }
-            //
-            //     // Muestra el loader
-            //     openLoading();
-            //
-            //     // Crea el objeto FormData y agrega los datos
-            //     var formData = new FormData();
-            //     formData.append('id', id);
-            //     formData.append('fechaFallecimiento', fechaFallecimientoEditar);
-            //     formData.append('nombre', nombre);
-            //     formData.append('fechaexhumacion', fechaexhumacionEditar);
-            //
-            //     // Envía la solicitud al backend
-            //     axios.post(url + '/editarusuario/editar', formData)
-            //         .then((response) => {
-            //             console.log(response)
-            //             closeLoading();
-            //             if (response.data.success === 1) {
-            //                 toastr.success('Actualizado correctamente');
-            //                 $('#modalEditar').modal('hide'); // Cierra el modal
-            //                 recargar(); // Recarga los datos en la tabla o vista
-            //             } else {
-            //                 toastr.error('Error al guardar');
-            //             }
-            //         })
-            //         .catch((error) => {
-            //             toastr.error('Error al guardar');
-            //             closeLoading();
-            //         });
-            // }
-
 
 
             function nuevo() {
@@ -492,7 +454,7 @@
                 // Construir el objeto de datos
                 const data = {
                     id_principal: idPrincipal,
-                    nombre: nombre,
+                    Nombre: nombre,
                     fecha_fallecimiento: fechaFallecimiento,
                     fecha_exhumacion: fechaExhumacion
                 };
@@ -511,8 +473,8 @@
                             document.getElementById('fechafallecimiento-editar').value = '';
                             document.getElementById('fechaexhumacion-editar').value = '';
 
-                            // Agregar la nueva fila a la tabla
-                            agregarFilaTabla(response.data.fallecido);
+                            // Agregar el nuevo bloque de datos
+                            agregarFilaTabla(response.data.fallecido, true);
                         } else {
                             toastr.error("Error al guardar los datos");
                         }
@@ -523,17 +485,121 @@
                     });
             }
 
-            // Función para agregar una nueva fila en la tabla de fallecidos
-            function agregarFilaTabla(fallecido) {
-                let tbody = document.querySelector("#cuerpoTabla");
-                let fila = document.createElement("tr");
-                fila.innerHTML = `
-        <td>${fallecido.nombre}</td>
-        <td>${fallecido.fecha_fallecimiento}</td>
-        <td>${fallecido.fecha_exhumacion || 'N/A'}</td>
+            function agregarFilaTabla(fallecido, esUltimo) {
+                let listaFallecidos = document.querySelector("#listaFallecidos");
+                if (!listaFallecidos) {
+                    console.error("No se encontró el contenedor con ID 'listaFallecidos'.");
+                    return;
+                }
+
+                let bloque = document.createElement("div");
+                bloque.className = "fila";
+                bloque.innerHTML = `
+                        <div class="form-group d-flex align-items-center">
+                            <label>${esUltimo ? 'Último fallecido:' : 'Nombre:'}</label>
+
+                            <input type="text" value="${fallecido.Nombre}" readonly class="form-control">
+                        </div>
+                        <div class="form-group d-flex align-items-center">
+                            <label>Fecha de fallecimiento:</label>
+                            <input type="date" value="${fallecido.fecha_de_fallecimiento}" readonly class="form-control">
+                        </div>
+                        <div class="form-group d-flex align-items-center">
+                            <label>Fecha de exhumación:</label>
+                            <input type="date" value="${fallecido.fecha_de_exhumacion || ''}" readonly class="form-control">
+                        </div>
     `;
-                tbody.appendChild(fila);
+
+                listaFallecidos.appendChild(bloque);
             }
+
+            document.addEventListener('DOMContentLoaded', function () {
+                const idRegistro = {{ $id }}; // Asegúrate de que $id esté definido en tu vista
+                cargarFallecidos(idRegistro);
+            });
+
+            function cargarFallecidos(idRegistro) {
+                axios.get(`/admin/informacion/obtener-fallecidos/${idRegistro}`)
+                    .then(response => {
+                        console.log("Respuesta del servidor:", response.data);
+                        if (response.data.success) {
+                            // Limpiar la lista actual
+                            document.getElementById('listaFallecidos').innerHTML = '';
+
+                            // Mostrar cada fallecido en la lista
+                            response.data.fallecidos.forEach((fallecido, index) => {
+                                const esUltimo = index === response.data.fallecidos.length - 1; // Verificar si es el último
+                                agregarFilaTabla(fallecido, esUltimo);
+                            });
+                        } else {
+                            toastr.error("Error al cargar los fallecidos");
+                        }
+                    })
+                    .catch(error => {
+                        toastr.error("Error en la petición");
+                        console.error(error);
+                    });
+            }
+
+
+
+            // Función para convertir fecha de DD-MM-YYYY a YYYY-MM-DD
+            function convertirFechaFormato(fechaDDMMYYYY) {
+                const [dia, mes, anio] = fechaDDMMYYYY.split('-');
+                return `${anio}-${mes}-${dia}`;
+            }
+
+            // Función para aplicar el estilo según la fecha de vencimiento
+            function aplicarEstiloFechaVencimiento() {
+                const inputFechaVencimiento = document.getElementById('fechavencimiento');
+                if (!inputFechaVencimiento) {
+                    console.error("No se encontró el input de fecha de vencimiento.");
+                    return;
+                }
+
+                if (!inputFechaVencimiento.value) {
+                    console.error("El input de fecha de vencimiento está vacío.");
+                    return;
+                }
+
+                const fechaVencimiento = new Date(inputFechaVencimiento.value);
+                if (isNaN(fechaVencimiento.getTime())) {
+                    console.error("La fecha de vencimiento no es válida.");
+                    return;
+                }
+
+                const fechaActual = new Date();
+
+                if (fechaVencimiento < fechaActual) {
+                    inputFechaVencimiento.style.backgroundColor = '#ffcccc'; // Rojo
+                } else if (fechaVencimiento.getFullYear() === fechaActual.getFullYear()) {
+                    inputFechaVencimiento.style.backgroundColor = '#ffcc99'; // Naranja
+                } else {
+                    inputFechaVencimiento.style.backgroundColor = '#ccffcc'; // Verde
+                }
+            }
+
+            // Ejemplo: Fecha en formato DD-MM-YYYY
+            const fechaDDMMYYYY = "31-12-2023";
+
+            // Convertir la fecha a YYYY-MM-DD
+            const fechaYYYYMMDD = convertirFechaFormato(fechaDDMMYYYY);
+
+            // Asignar la fecha al input
+            document.getElementById('fechavencimiento').value = fechaYYYYMMDD;
+
+            // Aplicar el estilo
+            aplicarEstiloFechaVencimiento();
+
+            // Llamar a la función al cargar la página
+            document.addEventListener('DOMContentLoaded', function () {
+                aplicarEstiloFechaVencimiento();
+            });
+
+            // Llamar a la función cuando cambia la fecha
+            document.getElementById('fechavencimiento').addEventListener('change', function () {
+                aplicarEstiloFechaVencimiento();
+            });
 
 
 
