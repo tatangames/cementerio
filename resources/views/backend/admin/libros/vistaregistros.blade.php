@@ -416,7 +416,7 @@
                 // Mostrar el loading
                 openLoading();
 
-                // Enviar los datos al servidor usando Axios
+                // Enviar los datos al servidor usando
                 axios.post(url + '/guardarlibro/index', formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data'
