@@ -237,8 +237,6 @@
 
         function buscarFallecido(e){
 
-
-
             // seguro para evitar errores de busqueda continua
             if(seguroBuscador){
                 seguroBuscador = false;

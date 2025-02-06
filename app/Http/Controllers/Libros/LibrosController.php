@@ -36,53 +36,47 @@ class LibrosController extends Controller
 
     public function buscarfallecido(Request $request)
     {
-        if ($request->get('query')) {
-            $query = $request->get('query');
+        if ($request->has('query')) {
+            $query = $request->input('query');
 
-//            $pilaObjEspeci = array();
-//            $infoAuth = auth()->user();
-//            $arrayCodigo = BodegaUsuarioObjEspecifico::where('id_usuario', $infoAuth->id)->get();
-
-//            foreach ($arrayCodigo as $fila) {
-//                array_push($pilaObjEspeci, $fila->id_objespecifico);
-//            } lalallalalal
-
-
-            $data = Libros::where('nombre', 'LIKE', "%{$query}%")
+            // Buscar en la tabla Libros
+            $dataLibros = Libros::where('nombre', 'LIKE', "%{$query}%")
                 ->orWhere('dui', 'LIKE', "%{$query}%")
-//                ->whereIn('id_objespecifico', $pilaObjEspeci)
                 ->get();
 
-            $output = '<ul class="dropdown-menu" style="display:block; position:relative; overflow: auto; max-height: 300px; width: 550px">';
-            $tiene = true;
-            foreach ($data as $row) {
-                $infofallecido = Libros::where('id', $row->id)->first();
-                $nombreCompleto = $row->nombre . " (" . $row->dui . ")";
+            // Buscar en la tabla Fallecidos
+            $dataFallecidos = Fallecidos::where('Nombre', 'LIKE', "%{$query}%")
+                ->get();
 
-                // si solo hay 1 fila, No mostrara el hr, salto de linea
-                if (count($data) == 1) {
-                    if (!empty($row)) {
-                        $tiene = false;
-                        $output .= '
-                 <li class="cursor-pointer" onclick="modificarValor(this)" id="' . $row->id . '">' . $nombreCompleto . '</li>
-                ';
-                    }
-                } else {
-                    if (!empty($row)) {
-                        $tiene = false;
-                        $output .= '
-                 <li class="cursor-pointer" onclick="modificarValor(this)" id="' . $row->id . '">' . $nombreCompleto . '</li>
-                   <hr>
-                ';
-                    }
+            // Fusionar los resultados
+            $data = collect([...$dataLibros, ...$dataFallecidos]);
+
+            // Verificar si hay resultados
+            if ($data->isEmpty()) {
+                return response()->json(['message' => 'No se encontraron resultados'], 200);
+            }
+
+            // Construir HTML para el dropdown
+            $output = '<ul class="dropdown-menu" style="display:block; position:relative; overflow: auto; max-height: 300px; width: 550px">';
+
+            foreach ($data as $row) {
+                $nombreCompleto = $row->nombre;
+                if (isset($row->dui)) {
+                    $nombreCompleto .= " (" . $row->dui . ")";
                 }
+
+
+                $output .= '
+                <li class="cursor-pointer" onclick="modificarValor(this)" id="' . $row->id . '">' . $nombreCompleto . '</li>
+                <hr>
+            ';
             }
+
             $output .= '</ul>';
-            if ($tiene) {
-                $output = '';
-            }
-            echo $output;
+            return response()->json($output, 200);
         }
+
+        return response()->json(['error' => 'Parámetro query no encontrado'], 400);
     }
 
     public function mostrarDetalle($id)
