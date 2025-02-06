@@ -498,7 +498,7 @@
                         <div class="form-group d-flex align-items-center">
                             <label>${esUltimo ? 'Último fallecido:' : 'Nombre:'}</label>
 
-                            <input type="text" value="${fallecido.Nombre}" readonly class="form-control">
+                            <input type="text" value="${fallecido.nombre}" readonly class="form-control">
                         </div>
                         <div class="form-group d-flex align-items-center">
                             <label>Fecha de fallecimiento:</label>

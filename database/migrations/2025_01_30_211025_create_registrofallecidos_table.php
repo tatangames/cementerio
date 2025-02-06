@@ -17,7 +17,7 @@ return new class extends Migration
 
 
             // Información del fallecido
-            $table->string('Nombre', 50)->nullable();
+            $table->string('nombre', 50)->nullable();
             $table->date('fecha_de_fallecimiento')->nullable();
             $table->date('fecha_de_exhumacion')->nullable();
 

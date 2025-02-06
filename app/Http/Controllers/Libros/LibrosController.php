@@ -36,6 +36,8 @@ class LibrosController extends Controller
 
     public function buscarfallecido(Request $request)
     {
+
+        $dataArray = array();
         if ($request->has('query')) {
             $query = $request->input('query');
 
@@ -47,29 +49,37 @@ class LibrosController extends Controller
             // Buscar en la tabla Fallecidos
             $dataFallecidos = Fallecidos::where('Nombre', 'LIKE', "%{$query}%")
                 ->get();
+            \Log::info("Libros encontrados: ", $dataLibros->toArray());
+            \Log::info("Fallecidos encontrados: ", $dataFallecidos->toArray());
 
-            // Fusionar los resultados
-            $data = collect([...$dataLibros, ...$dataFallecidos]);
-
-            // Verificar si hay resultados
-            if ($data->isEmpty()) {
-                return response()->json(['message' => 'No se encontraron resultados'], 200);
+            foreach ($dataLibros as $item) {
+                $dataArray[] = [
+                    'id' => $item->id,
+                    'nombre' => $item->nombre,
+                    'dui' => $item->dui,
+                    ];
             }
+
+            foreach ($dataFallecidos as $item) {
+                $dataArray[] = [
+                    'id' => $item->id_registrosce,
+                    'nombre' => $item->nombre,
+                    'dui' => "",
+                ];
+            }
+
+
 
             // Construir HTML para el dropdown
             $output = '<ul class="dropdown-menu" style="display:block; position:relative; overflow: auto; max-height: 300px; width: 550px">';
 
-            foreach ($data as $row) {
-                $nombreCompleto = $row->nombre;
-                if (isset($row->dui)) {
-                    $nombreCompleto .= " (" . $row->dui . ")";
-                }
+            foreach ($dataArray as $row) {
 
+                $mostrar = $row["nombre"] . " - " . $row["dui"];
 
                 $output .= '
-                <li class="cursor-pointer" onclick="modificarValor(this)" id="' . $row->id . '">' . $nombreCompleto . '</li>
-                <hr>
-            ';
+            <li class="cursor-pointer" onclick="modificarValor(this)" id="' . $row['id'] . '">' . $mostrar . '</li>
+            <hr>';
             }
 
             $output .= '</ul>';
