@@ -94,7 +94,21 @@ class LibrosController extends Controller
 
     public function registroGuardar(Request $request)
     {
+
+
         DB::beginTransaction();
+
+        // Verificar si ya existe un registro con el mismo libro y nicho
+        $existeRegistro = Libros::where('libro', $request->libro)
+            ->where('numero_de_nicho', $request->nicho)
+            ->exists();
+
+        if ($existeRegistro) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Ya existe un registro con el mismo libro y nicho.'
+            ], 400); // Código 400: Bad Request
+        }
 
         try {
             // Crear un nuevo registro en la base de datos
@@ -219,7 +233,7 @@ class LibrosController extends Controller
 
             $fallecido = new Fallecidos();
             $fallecido->id_registrosce = $request->id_principal;
-            $fallecido->nombre = $request->nombre;
+            $fallecido->Nombre = $request->Nombre;
             $fallecido->fecha_de_fallecimiento = $request->fecha_fallecimiento;
             $fallecido->fecha_de_exhumacion = $request->fecha_exhumacion;
             $fallecido->save();
@@ -235,6 +249,22 @@ class LibrosController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Error al guardar: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function obtenerFallecidos($idRegistro)
+    {
+        try {
+            $fallecidos = Fallecidos::where('id_registrosce', $idRegistro)->get();
+            return response()->json([
+                'success' => true,
+                'fallecidos' => $fallecidos
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error al obtener los fallecidos: ' . $e->getMessage()
             ], 500);
         }
     }
