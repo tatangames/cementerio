@@ -176,6 +176,7 @@ class LibrosController extends Controller
 
         // Busca el registro por ID
         $libro = Libros::find($request->id);
+        $fallecidos = Fallecidos::where('id_registrosce', $request->id)->first();
 
         if ($libro) {
             // Inicia la transacción
@@ -203,6 +204,13 @@ class LibrosController extends Controller
                     'costo_con_5' => $request->costocon,
                     'recibo_tesoreria' => $request->recibo,
                     'fecha_ingreso_tesoreria' => $request->fechateso,
+                ]);
+                // Actualiza el registro en la tabla fallecidos
+                $fallecidos->update([
+                    'nombre' => $request->nombre_nuevo,
+                    'fecha_de_fallecimiento' => $request->fechafallecimiento_nuevo,
+                    'fecha_de_exhumacion' => $request->fechaexhumacion_nuevo,
+                    // Agrega otros campos de fallecidos si es necesario
                 ]);
 
                 // Confirma la transacción
@@ -237,7 +245,7 @@ class LibrosController extends Controller
 
             $fallecido = new Fallecidos();
             $fallecido->id_registrosce = $request->id_principal;
-            $fallecido->Nombre = $request->Nombre;
+            $fallecido->nombre = $request->Nombre;
             $fallecido->fecha_de_fallecimiento = $request->fecha_fallecimiento;
             $fallecido->fecha_de_exhumacion = $request->fecha_exhumacion;
             $fallecido->save();

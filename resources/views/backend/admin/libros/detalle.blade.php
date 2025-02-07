@@ -384,6 +384,9 @@
                 const costocon = document.getElementById('costocon').value;
                 const recibo = document.getElementById('recibo').value;
                 const fechateso = document.getElementById('fechateso').value;
+                const nombre_nuevo = document.getElementById('nombrefalle').value;
+                const fechafallecimiento_nuevo = document.getElementById('fecha_falle').value;
+                const fechaexhumacion_nuevo = document.getElementById('fecha_exhu').value;
 
                 // Crea un objeto con los datos modificados
                 const datosModificados = {
@@ -406,7 +409,10 @@
                     costosin,
                     costocon,
                     recibo,
-                    fechateso
+                    fechateso,
+                    nombre_nuevo,
+                    fechafallecimiento_nuevo,
+                    fechaexhumacion_nuevo
                 };
 
 
@@ -498,15 +504,15 @@
                         <div class="form-group d-flex align-items-center">
                             <label>${esUltimo ? 'Último fallecido:' : 'Nombre:'}</label>
 
-                            <input type="text" value="${fallecido.nombre}" readonly class="form-control">
+                            <input  id="nombrefalle" type="text" value="${fallecido.nombre}" readonly class="form-control">
                         </div>
                         <div class="form-group d-flex align-items-center">
                             <label>Fecha de fallecimiento:</label>
-                            <input type="date" value="${fallecido.fecha_de_fallecimiento}" readonly class="form-control">
+                            <input id="fecha_falle" type="date" value="${fallecido.fecha_de_fallecimiento}" readonly class="form-control">
                         </div>
                         <div class="form-group d-flex align-items-center">
                             <label>Fecha de exhumación:</label>
-                            <input type="date" value="${fallecido.fecha_de_exhumacion || ''}" readonly class="form-control">
+                            <input id="fecha_exhu" type="date" value="${fallecido.fecha_de_exhumacion || ''}" readonly class="form-control">
                         </div>
     `;
 

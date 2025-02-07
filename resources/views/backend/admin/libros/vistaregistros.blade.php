@@ -220,7 +220,6 @@
 </div>
 
 <div class="modal-footer justify-content-between">
-    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
     <button type="button" style="font-weight: bold; background-color: #28a745; color: white !important;" class="button button-rounded button-pill button-small" onclick="nuevo();">
         Guardar
     </button>
@@ -429,21 +428,33 @@
                         // Verificar la respuesta del servidor
                         if (response.data.success === 1) {
                             toastr.success('Registrado correctamente');
-                            $('#modalAgregar').modal('hide'); // Cerrar el modal
+                            limpiarFormulario();
                             recargar(); // Recargar la página o la tabla
                         } else {
                             toastr.error('Error al registrar');
                         }
                     })
                     .catch((error) => {
-                        // Cerrar el loading y mostrar error
+                        // Cerrar el loading
                         closeLoading();
-                        toastr.error('Error al registrar');
-                        console.error(error);
+
+                        // Verificar si la respuesta del servidor contiene un mensaje específico
+                        if (error.response) {
+                            console.error('Error del servidor:', error.response.data);
+
+                            if (error.response.status === 400 && error.response.data.message) {
+                                // Si Laravel envió un mensaje de error, lo mostramos en el toast
+                                toastr.error(error.response.data.message);
+                            } else {
+                                toastr.error('Error al registrar. Intente nuevamente.');
+                            }
+                        } else {
+                            toastr.error('No se pudo conectar con el servidor.');
+                        }
                     });
             }
 
-            function informacion(id){
+                function informacion(id){
                 openLoading();
                 document.getElementById("formulario-editar").reset();
 
@@ -608,6 +619,12 @@
             `;
 
                 document.getElementById("campos-adicionales").appendChild(nuevoFallecido);
+            }
+
+            function limpiarFormulario() {
+                document.querySelectorAll('input').forEach(input => {
+                    input.value = ''; // Vaciar el campo
+                });
             }
 
 
