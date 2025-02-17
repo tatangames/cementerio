@@ -44,6 +44,7 @@ class LibrosController extends Controller
             // Buscar en la tabla Libros
             $dataLibros = Libros::where('nombre', 'LIKE', "%{$query}%")
                 ->orWhere('dui', 'LIKE', "%{$query}%")
+                ->orWhere('contribuyente', 'LIKE', "%{$query}%")
                 ->get();
 
             // Buscar en la tabla Fallecidos
@@ -56,6 +57,7 @@ class LibrosController extends Controller
                 $dataArray[] = [
                     'id' => $item->id,
                     'nombre' => $item->nombre,
+                    'contribuyente' => $item->contribuyente,
                     'dui' => $item->dui,
                     ];
             }
@@ -75,11 +77,19 @@ class LibrosController extends Controller
 
             foreach ($dataArray as $row) {
 
-                $mostrar = $row["nombre"] . " - " . $row["dui"];
+                // Verificar si las claves existen en el array antes de acceder a ellas
+                $nombre = isset($row["nombre"]) ? htmlspecialchars($row["nombre"]) : '';
+                $contribuyente = isset($row["contribuyente"]) ? htmlspecialchars($row["contribuyente"]) : '';
+                $dui = isset($row["dui"]) ? htmlspecialchars($row["dui"]) : '';
+                $id = isset($row["id"]) ? htmlspecialchars($row["id"]) : '';
 
+                // Construir el texto a mostrar con espacios adecuados
+                $mostrar = "{$nombre} ( {$contribuyente} ) ( {$dui} )";
+
+                // Agregar al output con protección contra XSS
                 $output .= '
-            <li class="cursor-pointer" onclick="modificarValor(this)" id="' . $row['id'] . '">' . $mostrar . '</li>
-            <hr>';
+        <li class="cursor-pointer" onclick="modificarValor(this)" id="' . $id . '">' . $mostrar . '</li>
+        <hr>';
             }
 
             $output .= '</ul>';
